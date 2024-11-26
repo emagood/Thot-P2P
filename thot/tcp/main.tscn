@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://duscehrsom5qv"]
 
-[ext_resource type="Script" path="res://red/tcp/main.gd" id="1_cq1t8"]
+[ext_resource type="Script" path="res://thot/tcp/main.gd" id="1_skb0v"]
 
 [node name="Main" type="Node2D"]
-script = ExtResource("1_cq1t8")
+script = ExtResource("1_skb0v")
 
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(999, 999)

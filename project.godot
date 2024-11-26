@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 
 folder_colors={
 "res://class/": "red",
-"res://red/": "orange"
+"res://red/": "orange",
+"res://thot/": "red"
 }
 
 [rendering]

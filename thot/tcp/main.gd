@@ -51,9 +51,9 @@ func _on_button_pressed() -> void:
 	
 	if network_server != null and network_server.client_datas != null:
 		var player_id = 1  
-		if !network_server.send_data(player_id, "Hello Client"):
-			print("Error al enviar desde el servidor")
+		network_server.send_data(player_id, "Hello Client")
+		prints("enviar desde el servidor")
 	else:
-		print("network_server o client_datas no está instanciado")
+		push_error("network_server o client_datas no está instanciado")
 	
 	pass # Replace with function body.
