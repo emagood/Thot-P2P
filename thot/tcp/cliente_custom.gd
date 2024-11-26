@@ -92,6 +92,7 @@ func _handle_connection_active(status):
 func _check_for_data():
 	while client_data.peer.get_available_packet_count() > 0:
 		var data = client_data.peer.get_var()
+		prints(client_data.connection.get_connected_host())
 		print("[CLIENT] Data received: " + str(data))   #quitar 
 		data_received.emit(data)
 

@@ -51,6 +51,8 @@ func _process(_delta):
 		if connection.get_status() == connection.STATUS_ERROR or connection.get_status() == connection.STATUS_NONE:
 			print("[SERVER] A Client has disconnected: %d" % client_id)
 			disconnected_clients.append(client_id)
+			client_datas.erase(client_id) ### problema 
+			
 			emit_signal("client_disconnected", client_id)
 		else:
 			# Check for receiving data
@@ -75,4 +77,5 @@ func send_data(client_id: int, data):
 		client_datas[client_id].peer.put_var(data)
 		print("[SERVER] Data sent to client %d: %s" % [client_id, str(data)]) #///quitar ///
 	else:
+		client_datas.erase(client_id)
 		push_error("[SERVER] Client %d not found" % client_id)

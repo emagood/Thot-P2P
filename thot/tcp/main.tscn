@@ -38,4 +38,20 @@ offset_right = 179.0
 offset_bottom = 27.0
 text = "Small improvements"
 
+[node name="only_client" type="Button" parent="."]
+offset_left = 169.0
+offset_top = 95.0
+offset_right = 264.0
+offset_bottom = 126.0
+text = "send_client"
+
+[node name="only_server" type="Button" parent="."]
+offset_left = 168.0
+offset_top = 57.0
+offset_right = 269.0
+offset_bottom = 88.0
+text = "send_server"
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="only_client" to="." method="_on_only_client_pressed"]
+[connection signal="pressed" from="only_server" to="." method="_on_only_server_pressed"]
