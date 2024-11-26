@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://duscehrsom5qv"]
+
+[ext_resource type="Script" path="res://red/tcp/main.gd" id="1_cq1t8"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_cq1t8")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(999, 999)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(21.56, 5.56)
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.576471, 0.756863, 0.756863, 0.368627)
+
+[node name="Button" type="Button" parent="."]
+offset_left = 20.0
+offset_top = 94.0
+offset_right = 66.0
+offset_bottom = 125.0
+text = "send"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 19.0
+offset_top = 4.0
+offset_right = 179.0
+offset_bottom = 27.0
+text = "Small improvements"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
