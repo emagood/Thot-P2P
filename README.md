@@ -3,7 +3,7 @@
 
 ## Descripción
 
-Esta aplicación permite la comunicación P2P (Peer-to-Peer) entre dos dispositivos utilizando diferentes métodos de implementación en Godot 4.4: ENet,
+Esta aplicación permite la comunicación P2P (Peer-to-Peer) entre dispositivos utilizando diferentes métodos de implementación en Godot 4.4: ENet,
 WebSocket, y TCP_Peer. Su objetivo principal es conectar dispositivos e intercambiar información, datos o mensajes.
 
 ## Características
