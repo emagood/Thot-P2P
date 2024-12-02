@@ -34,7 +34,15 @@ func _process(_delta):
 	if server != null:
 		if server.is_connection_available():
 			var client_connection: StreamPeerTCP = server.take_connection()
-			var client_id = next_client_id
+			##########################################
+			#### prueba 
+			# Encuentra la primera clave numérica faltante en el diccionario 
+			var key = 1 
+			while client_datas.has(key): 
+				key += 1 # Agrega el nuevo valor en el primer lugar vacío encontrado 
+			#dictionary[key] = new_value
+			
+			var client_id = key
 			next_client_id += 1
 			client_datas[client_id] = ClientData.new()
 			client_datas[client_id].peer = PacketPeerStream.new()

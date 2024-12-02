@@ -40,6 +40,12 @@ func _on_button_pressed() -> void:
 
 func _on_peers_pressed() -> void:
 	if server == null:
+		prints(client.multiplayer.get_peers())
 		return
 	prints(server.multiplayer.get_peers())
+	pass # Replace with function body.
+
+
+func _on_quit_pressed() -> void:
+	queue_free()
 	pass # Replace with function body.

@@ -1,4 +1,5 @@
 extends Node
+class_name Eserver
 
 var server_custom = ENetMultiplayerPeer.new()
 var multiplayer_api : MultiplayerAPI
@@ -7,6 +8,12 @@ var upnp = UPNP.new()
 @export var max_peers = 999
 @onready var rpc_local = get_tree().get_first_node_in_group("rpc_local")
 @onready var send_msjs = get_tree().get_first_node_in_group("msj")
+
+func _init(ip , port) -> void:
+	server_custom.set_bind_ip(ip)
+	self.port = port
+	pass
+
 
 
 func _ready():
@@ -77,7 +84,7 @@ func rpc_sms(msg, mode):
 		init_group()
 	#if test_var2 == 1:
 	var peer_id = multiplayer.get_remote_sender_id()
-	send_msjs.msj_entra = str(msg + " "  + " mensaje de   " + str(peer_id) )
+	#send_msjs.msj_entra = str(msg + " "  + " mensaje de   " + str(peer_id) )
 	#send_msjs.msj_entra = str(test_var1 + " " + test_var2 + "\n" + "mensaje de  " + str(peer_id))
 	print("Custom servidor rpc_server_all_respons var ",msg, " var 2 ",mode)
 	#rpc_sms.rpc_id(peer_id,"respondo servidor","HOLA")

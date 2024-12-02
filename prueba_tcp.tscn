@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://duscehrsom5qv"]
 
-[ext_resource type="Script" path="res://thot/tcp/main.gd" id="1_skb0v"]
+[ext_resource type="Script" path="res://prueba_tcp.gd" id="1_apuch"]
 
 [node name="Main" type="Node2D"]
-script = ExtResource("1_skb0v")
+script = ExtResource("1_apuch")
 
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(500, 500)
@@ -28,7 +28,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.576471, 0.756863, 0.756863, 0.368627)
+color = Color(0.576471, 0.756863, 0.756863, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
 clip_contents = false
@@ -82,6 +82,14 @@ offset_right = 269.0
 offset_bottom = 88.0
 text = "send_server"
 
+[node name="quit" type="Button" parent="."]
+offset_left = 192.0
+offset_top = 160.0
+offset_right = 231.0
+offset_bottom = 191.0
+text = "quit"
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="only_client" to="." method="_on_only_client_pressed"]
 [connection signal="pressed" from="only_server" to="." method="_on_only_server_pressed"]
+[connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]

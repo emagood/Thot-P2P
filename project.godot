@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-run/main_scene="res://thot/tcp/main.tscn"
+config/name="thot-p2p"
+run/main_scene="res://menu.tscn"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 

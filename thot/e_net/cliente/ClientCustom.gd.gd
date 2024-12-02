@@ -8,6 +8,8 @@
 
 
 extends Node
+class_name Eclient
+
 @onready var send_msjs = get_tree().get_first_node_in_group("msj")
 var client_custom = ENetMultiplayerPeer.new()
 var multiplayer_api : MultiplayerAPI
@@ -16,6 +18,14 @@ var type = "enet"
 @export var address = "127.0.0.1"
 @export var port = 8888
 var local_id = ""
+
+
+func _init(ip , port) -> void:
+	self.port = port
+	self.address = ip
+
+
+
 
 func _ready():
 	
@@ -120,7 +130,7 @@ func rpc_sms(msg, mode):
 	if send_msjs == null :
 		init_group()
 	#if mode == 1:
-	send_msjs.msj_entra = str(msg + " "  + " mensaje de   " + str(peer_id) )
+	#send_msjs.msj_entra = str(msg + " "  + " mensaje de   " + str(peer_id) )
 	prints("yo resivi cliente  "  ,msg , mode ) #+ str(Data.t_id) ,
 
 	#rpc_server_all_response(peer_id,"soy el cliente",port)

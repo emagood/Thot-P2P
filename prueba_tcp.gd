@@ -126,3 +126,8 @@ func _on_only_server_pressed() -> void:
 	else:
 		push_error("network_server o client_datas no está instanciado")
 	pass # Replace with function body.
+
+
+func _on_quit_pressed() -> void:
+	queue_free()
+	pass # Replace with function body.
