@@ -11,6 +11,7 @@ extends Node
 @onready var send_msjs = get_tree().get_first_node_in_group("msj")
 var client_custom = ENetMultiplayerPeer.new()
 var multiplayer_api : MultiplayerAPI
+var type = "enet"
 @export var rpc_true = false
 @export var address = "127.0.0.1"
 @export var port = 8888
@@ -37,7 +38,7 @@ func _ready():
 	print("Custom ClientUnique ID: {0}".format([multiplayer_api.get_unique_id()]))
 	
 	
-	Data.t_id[multiplayer_api.get_unique_id()] = port
+	#Data.t_id[multiplayer_api.get_unique_id()] = port
 	await get_tree().create_timer(1).timeout
 
 
@@ -46,18 +47,18 @@ func _ready():
 
 
 func _process(_delta: float) -> void:
-	if Data.t_id.is_empty():
-		prints("vasio")
+	#if Data.t_id.is_empty():
+		#prints("vasio")
 	if multiplayer_api.has_multiplayer_peer():
 		multiplayer_api.poll()
 		
 		
 		if local_id != "" and rpc_true == false:
 			prints("sali")
-			if Data.t_id.has(local_id.to_int()):
-				Data.t_id.erase(local_id.to_int())
-				prints("salgo")
-			queue_free()
+			#if Data.t_id.has(local_id.to_int()):
+				#Data.t_id.erase(local_id.to_int())
+				#prints("salgo")
+			#queue_free()
 
 func init_group():
 	self.send_msjs = get_tree().get_first_node_in_group("msj")
@@ -65,7 +66,7 @@ func init_group():
 
 func _on_server_disconnected():
 	rpc_true = false
-	Data.t_id.erase(local_id.to_int())
+	#Data.t_id.erase(local_id.to_int())
 	print("se desconecto el servidor")
 
 
@@ -75,13 +76,13 @@ func _on_connection_succeeded():
 	print("Custom Client _on_connection_succeeded")
 	await get_tree().create_timer(1).timeout
 	print("Custom Peers: {0}".format([multiplayer.get_peers()]))
-	for i in multiplayer.get_peers():
-		prints(i)
-	if Data.t_id.has(str(multiplayer_api.get_unique_id())):
-		prints("error")
-	Data.t_id[multiplayer_api.get_unique_id()] = port
-	local_id = str(multiplayer_api.get_unique_id())
-	login(Data.id_user ,Data.id_pass)
+	#for i in multiplayer.get_peers():
+		#prints(i)
+	#if Data.t_id.has(str(multiplayer_api.get_unique_id())):
+		#prints("error")
+	#Data.t_id[multiplayer_api.get_unique_id()] = port
+	#local_id = str(multiplayer_api.get_unique_id())
+	#login(Data.id_user ,Data.id_pass)
 	
 	
 	
@@ -120,7 +121,7 @@ func rpc_sms(msg, mode):
 		init_group()
 	#if mode == 1:
 	send_msjs.msj_entra = str(msg + " "  + " mensaje de   " + str(peer_id) )
-	prints("yo resivi cliente  " + str(Data.t_id) , "  " ,msg , mode )
+	prints("yo resivi cliente  "  ,msg , mode ) #+ str(Data.t_id) ,
 
 	#rpc_server_all_response(peer_id,"soy el cliente",port)
 	#prints("cliente del all response del sccript cliente ",test_var1 , "  el otro dato " , test_var2)
@@ -179,7 +180,8 @@ func _input(event: InputEvent) -> void:
 	#await get_tree().create_timer(1).timeout
 
 func login(id_user,id_pass):
-	rpc_login.rpc_id(1,Data.id_user,Data.id_pass)
+	#rpc_login.rpc_id(1,Data.id_user,Data.id_pass)
+	pass
 
 
 

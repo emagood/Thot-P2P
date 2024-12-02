@@ -1,6 +1,15 @@
 extends Node
 class_name NetworkClient
 
+
+
+#class ClientData:
+#
+	#var peer: PacketPeerStream
+	#var connection: StreamPeerTCP
+
+
+
 # Network
 var client_data: ClientData
 var connected = false

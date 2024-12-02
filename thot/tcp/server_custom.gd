@@ -1,6 +1,12 @@
 extends Node
 class_name NetworkServer
 
+### user quite la classe global 
+#class ClientData:
+#
+	#var peer: PacketPeerStream
+	#var connection: StreamPeerTCP
+
 # Network
 var server: TCPServer # Holds the TCP Server Object
 var client_datas: Dictionary = {}
