@@ -39,6 +39,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="server2" type="Button" parent="."]
+layout_mode = 0
 offset_left = 349.0
 offset_top = 89.0
 offset_right = 406.0
@@ -46,6 +47,7 @@ offset_bottom = 120.0
 text = "server"
 
 [node name="cliente" type="Button" parent="."]
+layout_mode = 0
 offset_left = 110.0
 offset_top = 83.0
 offset_right = 170.0
@@ -53,6 +55,7 @@ offset_bottom = 114.0
 text = "cliente"
 
 [node name="Button" type="Button" parent="."]
+layout_mode = 0
 offset_left = 228.0
 offset_top = 134.0
 offset_right = 329.0
@@ -60,6 +63,7 @@ offset_bottom = 165.0
 text = "send mensaje"
 
 [node name="peers" type="Button" parent="."]
+layout_mode = 0
 offset_left = 237.0
 offset_top = 55.0
 offset_right = 289.0

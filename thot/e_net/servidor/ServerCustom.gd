@@ -4,6 +4,8 @@ class_name Eserver
 var server_custom = ENetMultiplayerPeer.new()
 var multiplayer_api : MultiplayerAPI
 var upnp = UPNP.new()
+var thread = null
+@export var upnp_ip = 0
 @export var port = 8888
 @export var max_peers = 999
 @onready var rpc_local = get_tree().get_first_node_in_group("rpc_local")
@@ -12,11 +14,14 @@ var upnp = UPNP.new()
 func _init(ip , port) -> void:
 	server_custom.set_bind_ip(ip)
 	self.port = port
+	thread = Thread.new()
+	thread.start(_upnp_setup.bind(port))
 	pass
 
 
 
 func _ready():
+	
 	add_to_group("host")
 	print("Custom Server _ready()  Entered" + "  del servidor `port" + str(port))
 
@@ -30,10 +35,23 @@ func _ready():
 	multiplayer_api.multiplayer_peer = server_custom
 	#Data.t_id[multiplayer_api.get_unique_id()] = port
 	prints(" mi id servidor " + str(multiplayer_api.get_unique_id()))
+	
+	
 
 
 
-
+func _upnp_setup(server_port):
+	prints("upnp setup iniciando")
+	var err = upnp.discover()
+	if err != OK:
+		push_error(str(err))
+		return
+	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
+		upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "UDP")
+		#upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "TCP")
+		upnp_ip = upnp.query_external_address()
+		print("Success! Join Address: %s" % upnp_ip)
+		
 
 func _process(_delta: float) -> void:
 	if multiplayer_api.has_multiplayer_peer():
@@ -136,3 +154,8 @@ func send_msj(id,dat,mode):
 func send_msja(dat, mode):
 	rpc_sms.rpc(dat,mode)
 	prints(dat,mode)
+
+func _exit_tree() -> void:
+	prints("adios")
+	thread.wait_to_finish()
+	upnp.delete_port_mapping(port)

@@ -6,7 +6,9 @@ class_name WebServer
 
 @export var port = 8080
 @export var ip  = '"*"'
-
+var upnp = UPNP.new()
+var thread = null
+@export var upnp_ip = 0
 
 
 #@onready var _host_btn = $Panel/VBoxContainer/HBoxContainer2/HBoxContainer/Host
@@ -22,13 +24,26 @@ var peer = WebSocketMultiplayerPeer.new()
 func _init(ip,port):
 	self.port = port
 	self.ip = ip
-	
+	thread = Thread.new()
+	thread.start(_upnp_setup.bind(port))
 	#get_tree().set_multiplayer(MultiplayerAPI.create_default_interface(), self)
 	#multiplayer.multiplayer_peer = null
 	
 	#multiplayer.multiplayer_peer = peer
 	pass
 	#peer.supported_protocols = ["ludus"]
+
+func _upnp_setup(server_port):
+	prints("upnp setup iniciando")
+	var err = upnp.discover()
+	if err != OK:
+		push_error(str(err))
+		return
+	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
+		upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "UDP")
+		#upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "TCP")
+		upnp_ip = upnp.query_external_address()
+		print("Success! Join Address: %s" % upnp_ip)
 
 
 func _ready():
@@ -136,4 +151,6 @@ func command(cmd) -> void:
 	
 func _exit_tree() -> void:
 	prints("quit")
+	thread.wait_to_finish()
+	upnp.delete_port_mapping(port)
 	get_tree().set_multiplayer(null, self.get_path())

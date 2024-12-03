@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 func _on_server_2_pressed() -> void:
-	if client:
+	if client or server:
 		return
 	server = WebServer.new("*", 8080)
 	add_child(server)
