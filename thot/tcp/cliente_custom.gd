@@ -22,6 +22,7 @@ var timeout_update_intervals: float = 0.0
 var address: String
 var port: int
 
+
 signal data_received(data)
 signal connection_successful
 signal connection_failed
@@ -41,12 +42,15 @@ func _init(conecting_address: String = "127.0.0.1", connecting_port: int = 3115)
 	_check_connection_status(client_data.connection.get_status())
 
 func _ready() -> void:
+	if connected:
+		emit_signal("connection_successful")
 	pass
 	#get_tree().set_multiplayer(multiplayer, self.get_path())
 	
 	#multiplayer.peer_connected.connect(_peer_connected)
 
 func _process(delta):
+	
 	if client_data == null:
 		return
 	
@@ -113,8 +117,9 @@ func _connection_successful():
 func _connection_failed():
 	print("[CLIENT] Couldn't connect to " + address + ":" + str(port))  #quitar usar // aqui no //# push_error
 	connected = false
-	client_data.queue_free()
 	emit_signal("connection_failed")
+	
+	client_data.queue_free()
 
 func send_data(data):
 	if connected:

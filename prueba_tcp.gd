@@ -11,46 +11,21 @@ var player_id
 
 func _ready():
 	get_tree().set_multiplayer(multiplayer, self.get_path())
-	
-	pass
-
-## client  ########################################
-
-	network_client = NetworkClient.new(address, port)
-	
-	network_client.data_received.connect(
-		func(data):
-			print("Client received data: "+str(data))
-			network_client.send_data("Hello Server")
-	)
-	add_child(network_client)
+	network_server = NetworkServer.new()
+	network_client = NetworkClient.new()
+	#pass
 
 
 
-##  server ###################################
 
-	network_server = NetworkServer.new(address, port)
-	network_server.client_connected.connect(peer_conect)
-		#func(player_id):
-			#self.player_id = player_id
-			#print("Server has connection for id: "+str(player_id))
-			#network_server.send_data(player_id, "Hello Client")
-	#)
-	network_server.client_disconnected.connect(peer_disconnect)
-		#func(player_id):
-			#print("Server has disconnection for id: "+str(player_id))
-	#)
-	network_server.data_received.connect(data_server)
-		#func(player_id, data):
-			#print("Server received data from ("+str(player_id)+"): "+str(data))
-	add_child(network_server)
+
 
  ############### signal server 
 func data_server(peer,data):
 	var lavel = Label.new()
-	lavel.text = str(" recibido del from funcion conect godot  ("+str(peer) + "): " + str(data))
+	lavel.text = str(" recibido , el server tiene  ("+str(peer) + "): " + str(data))
 	plano.add_child(lavel)
-	print("Server received data from funcion conect godot  ("+str(peer) + "): " + str(data))
+	print("Server recibio de cliente  ("+str(peer) + "): " + str(data))
 	pass
 ########################################
 func peer_disconnect(peer):
@@ -69,7 +44,29 @@ func peer_conect(peer):
 	network_server.send_data(peer, "Hello Client")
 	pass
 	##############################################
+	
 
+ ############### signal cliente
+func data_client(data):
+	var lavel = Label.new()
+	lavel.text = str("hola soy cliente recibi estov del server   ("+ str(data))
+	plano.add_child(lavel)
+	print("cliente recibe (" + str(data))
+	pass
+
+func server_fail():
+	var lavel = Label.new()
+	lavel.text = ("error server no encontrado")
+	plano.add_child(lavel)
+	print("Server no encontrado")
+	pass
+
+func server_ok():
+	var lavel = Label.new()
+	lavel.text = ("conectado al server ")
+	plano.add_child(lavel)
+	print("Server status OK")
+	pass
 
 
 func _on_button_pressed() -> void:
@@ -130,4 +127,43 @@ func _on_only_server_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	queue_free()
+	pass # Replace with function body.
+
+
+func _on_crea_srver_pressed() -> void:
+	##  server ###################################
+
+	network_server = NetworkServer.new(address, port)
+	network_server.client_connected.connect(peer_conect)
+		#func(player_id):
+			#self.player_id = player_id
+			#print("Server has connection for id: "+str(player_id))
+			#network_server.send_data(player_id, "Hello Client")
+	#)
+	network_server.client_disconnected.connect(peer_disconnect)
+		#func(player_id):
+			#print("Server has disconnection for id: "+str(player_id))
+	#)
+	network_server.data_received.connect(data_server)
+		#func(player_id, data):
+			#print("Server received data from ("+str(player_id)+"): "+str(data))
+	add_child(network_server)
+	pass # Replace with function body.
+
+
+func _on_crea_client_pressed() -> void:
+	## client  ########################################
+
+	network_client = NetworkClient.new(address, port)
+	
+	network_client.connection_failed.connect(server_fail)
+	
+	network_client.connection_successful.connect(server_ok)
+	
+	network_client.data_received.connect(data_client)
+		#func(data):
+			#print("Client received data: "+str(data))
+			#network_client.send_data("Hello Server")
+	#)
+	add_child(network_client)
 	pass # Replace with function body.
