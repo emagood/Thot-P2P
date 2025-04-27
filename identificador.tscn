@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0t51de63v8c0"]
 
-[ext_resource type="Script" path="res://identificador.gd" id="1_4o5m6"]
-[ext_resource type="Script" path="res://prueba hash.gd" id="2_jmlcn"]
-[ext_resource type="Script" path="res://hash_256.gd" id="3_s3ejb"]
+[ext_resource type="Script" uid="uid://634ofxs188yr" path="res://identificador.gd" id="1_4o5m6"]
+[ext_resource type="Script" uid="uid://w5ngeab62emv" path="res://prueba hash.gd" id="2_jmlcn"]
+[ext_resource type="Script" uid="uid://cyc0y4jln4igq" path="res://hash_256.gd" id="3_s3ejb"]
 
 [node name="identificador" type="Node"]
 script = ExtResource("1_4o5m6")

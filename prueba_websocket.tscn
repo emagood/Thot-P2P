@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dysuks4asfabv"]
 
-[ext_resource type="Script" path="res://prueba_websocket.gd" id="1_rxbrq"]
+[ext_resource type="Script" uid="uid://ml56e1ppd276" path="res://prueba_websocket.gd" id="1_rxbrq"]
 
 [node name="prueba_2" type="Control"]
 layout_mode = 3

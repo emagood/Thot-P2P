@@ -1,12 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dvdidnkl0k2qq"]
-
-[ext_resource type="Script" path="res://escena/red/menu/menu.gd" id="1_hung8"]
-[ext_resource type="Texture2D" uid="uid://306y1ctsathc" path="res://assets/fondo/paisaje.jpeg" id="2_7i2sb"]
-[ext_resource type="Texture2D" uid="uid://drbhcg4aeveh6" path="res://assets/Buttons/Button10.png" id="3_vtm5c"]
-[ext_resource type="Texture2D" uid="uid://dk6d0uvgbjl1y" path="res://assets/Buttons/Button3.png" id="4_jdoyc"]
-[ext_resource type="Texture2D" uid="uid://b4vm1p7l5aqol" path="res://assets/Buttons/Button22png.png" id="5_pjukf"]
-[ext_resource type="Texture2D" uid="uid://bee2avp6jc4a5" path="res://assets/Buttons/Button21.png" id="6_ud0mg"]
-[ext_resource type="Texture2D" uid="uid://bh0c47pygbpt0" path="res://assets/Buttons/Button20s.png" id="7_iuw54"]
+[gd_scene format=3 uid="uid://dvdidnkl0k2qq"]
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -15,7 +7,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_hung8")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -35,7 +26,6 @@ size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
-texture = ExtResource("2_7i2sb")
 flip_h = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer"]
@@ -150,8 +140,6 @@ alignment = 1
 [node name="salir" type="TouchScreenButton" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer"]
 position = Vector2(392, 119.75)
 scale = Vector2(0.4, 0.4)
-texture_normal = ExtResource("3_vtm5c")
-texture_pressed = ExtResource("4_jdoyc")
 
 [node name="Label" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer/salir"]
 offset_left = 87.5
@@ -163,8 +151,6 @@ text = "salir"
 [node name="login" type="TouchScreenButton" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer"]
 position = Vector2(541, 120.792)
 scale = Vector2(0.4, 0.4)
-texture_normal = ExtResource("5_pjukf")
-texture_pressed = ExtResource("4_jdoyc")
 
 [node name="Label" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer/login"]
 offset_left = 87.5
@@ -176,8 +162,6 @@ text = "login"
 [node name="regresar" type="TouchScreenButton" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer"]
 position = Vector2(682, 117.667)
 scale = Vector2(0.4, 0.4)
-texture_normal = ExtResource("6_ud0mg")
-texture_pressed = ExtResource("4_jdoyc")
 
 [node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer/regresar"]
 offset_left = 79.9998
@@ -189,8 +173,6 @@ text = "registre"
 [node name="server" type="TouchScreenButton" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer"]
 position = Vector2(254, 120.708)
 scale = Vector2(0.4, 0.4)
-texture_normal = ExtResource("7_iuw54")
-texture_pressed = ExtResource("4_jdoyc")
 
 [node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/HBoxContainer/server"]
 offset_left = 79.9998
