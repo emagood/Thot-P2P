@@ -23,9 +23,14 @@ config/icon="res://icon.svg"
 
 GDSync="*res://addons/GD-Sync/MultiplayerClient.gd"
 
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=512
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GD-Sync/plugin.cfg")
+enabled=PackedStringArray()
 
 [file_customization]
 

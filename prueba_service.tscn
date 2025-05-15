@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsdlubcsj8trn"]
+[gd_scene load_steps=3 format=3 uid="uid://dsdlubcsj8trn"]
 
 [ext_resource type="Script" uid="uid://b0elorrs4qyis" path="res://prueba_service.gd" id="1_4b3rh"]
+[ext_resource type="Script" uid="uid://c7bitgawdn2fs" path="res://menu_service.gd" id="2_gtas1"]
 
 [node name="prueba_service" type="Control"]
 layout_mode = 3
@@ -10,3 +11,95 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4b3rh")
+
+[node name="menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_gtas1")
+
+[node name="LineEdit" type="LineEdit" parent="menu"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 171.0
+offset_right = 156.563
+offset_bottom = 202.0
+placeholder_text = "type"
+max_length = 5
+
+[node name="help" type="Label" parent="menu"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 50.0
+offset_bottom = 26.0
+text = "type
+\"udp\"
+\"tcp\"
+\"web\"
+\"enet\""
+
+[node name="server" type="Button" parent="."]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 124.0
+offset_right = 153.0
+offset_bottom = 132.0
+text = "server"
+
+[node name="cliente" type="Button" parent="."]
+layout_mode = 0
+offset_left = 167.0
+offset_top = 122.0
+offset_right = 228.0
+offset_bottom = 130.0
+text = "cliente"
+
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 58.0
+offset_right = 252.0
+offset_bottom = 82.0
+
+[node name="edot_msj" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 272.0
+offset_right = 151.0
+offset_bottom = 303.0
+placeholder_text = "mensaje"
+
+[node name="enviar_smj" type="Button" parent="."]
+layout_mode = 0
+offset_left = 163.0
+offset_top = 272.0
+offset_right = 201.0
+offset_bottom = 280.0
+text = "enviar"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 6.0
+offset_right = 602.0
+offset_bottom = 393.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 12.21
+
+[node name="TextEdit" type="TextEdit" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+scroll_smooth = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
