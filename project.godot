@@ -8,12 +8,24 @@
 
 config_version=5
 
+[GD-Sync]
+
+version="0.10"
+
 [application]
 
 config/name="thot-p2p"
 run/main_scene="res://menu.tscn"
-config/features=PackedStringArray("4.4", "Mobile")
+config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GDSync="*res://addons/GD-Sync/MultiplayerClient.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GD-Sync/plugin.cfg")
 
 [file_customization]
 

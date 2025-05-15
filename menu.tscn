@@ -28,7 +28,7 @@ offset_bottom = 40.0
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "thot coneccion 
-    p2p godot "
+    p2p godot  obsoleto "
 
 [node name="websocket" type="Button" parent="VBoxContainer"]
 layout_mode = 2

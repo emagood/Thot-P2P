@@ -1,7 +1,3 @@
-[gd_scene load_steps=2 format=3 uid="uid://b01navhh6bpox"]
-
-[sub_resource type="Resource" id="Resource_5bvcl"]
-metadata/__load_path__ = "res://escena/red/host/ServerCustom.gd"
+[gd_scene format=3 uid="uid://b01navhh6bpox"]
 
 [node name="Node" type="Node"]
-script = SubResource("Resource_5bvcl")

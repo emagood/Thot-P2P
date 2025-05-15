@@ -21,8 +21,8 @@ var udp = PacketPeerUDP.new()  # UDP通信对象
 
 # 初始化示例，不建议自动开启，请在需要时手动开启，因为手动开启可以指定端口
 # Initialization example, auto-start not recommended, please start manually when needed as it allows port specification
-#func _ready():
-	#start()                   # 自动启动UDP服务
+func _init(port) -> void:
+	start(port)                   # 自动启动UDP服务
 							  # Auto-start UDP service
 
 # 每帧处理 | Process Every Frame

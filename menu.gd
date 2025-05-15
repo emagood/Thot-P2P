@@ -39,9 +39,9 @@ func _exit_tree() -> void:
 
 
 func _on_udp_pressed() -> void:
-
-	var menu = preload("res://example/UDPExample.tscn").instantiate()
-	add_child(menu)
+#
+	#var menu = preload("res://example/UDPExample.tscn").instantiate()
+	#add_child(menu)
 	prints("instancio escena")
 	await get_tree().create_timer(1).timeout
 	pass # Replace with function body.
