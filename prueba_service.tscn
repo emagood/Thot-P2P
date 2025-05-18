@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsdlubcsj8trn"]
+[gd_scene load_steps=3 format=3 uid="uid://dsdlubcsj8trn"]
 
 [ext_resource type="Script" uid="uid://b0elorrs4qyis" path="res://prueba_service.gd" id="1_4b3rh"]
 [ext_resource type="Script" uid="uid://c7bitgawdn2fs" path="res://menu_service.gd" id="2_gtas1"]
-[ext_resource type="PackedScene" uid="uid://d0kd15tegowbr" path="res://server_list.tscn" id="3_0f1pp"]
 
 [node name="prueba_service" type="Control"]
 layout_mode = 3
@@ -94,7 +93,7 @@ clip_contents = true
 layout_mode = 2
 size_flags_stretch_ratio = 12.21
 
-[node name="TextEdit" type="TextEdit" parent="PanelContainer/HBoxContainer"]
+[node name="Edit" type="TextEdit" parent="PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 scroll_smooth = true
@@ -106,42 +105,6 @@ horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer/ScrollContainer"]
-layout_mode = 2
-
-[node name="derver_list" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list2" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list3" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list4" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list5" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list6" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list7" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list8" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list9" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list10" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list11" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
-layout_mode = 2
-
-[node name="derver_list12" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2" instance=ExtResource("3_0f1pp")]
 layout_mode = 2
 
 [connection signal="pressed" from="server" to="menu" method="_on_server_pressed"]

@@ -3,13 +3,6 @@ class_name NetworkClient
 
 
 
-#class ClientData:
-#
-	#var peer: PacketPeerStream
-	#var connection: StreamPeerTCP
-
-
-
 # Network
 var client_data: ClientData
 var connected = false
@@ -121,7 +114,7 @@ func _connection_failed():
 	
 	client_data.queue_free()
 
-func send_data(data):
+func send_pack(data):
 	if connected:
 		client_data.peer.put_var(data)
 	else:

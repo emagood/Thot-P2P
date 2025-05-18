@@ -189,15 +189,7 @@ func _input(event: InputEvent) -> void:
 	#print("Custom ClientUnique ID: {0}".format([multiplayer_api.get_unique_id()]))
 	#await get_tree().create_timer(1).timeout
 
-func login(id_user,id_pass):
-	#rpc_login.rpc_id(1,Data.id_user,Data.id_pass)
-	pass
 
-
-
-func send_msj(id,dat,mode):
-	rpc_sms.rpc_id(id,dat,mode)
-
-func send_msja(dat, mode):
-	rpc_sms.rpc(dat,mode)
-	prints(dat,mode)
+func send_pack(pack):
+	prints(pack)
+	rpc_sms.rpc(pack,1)

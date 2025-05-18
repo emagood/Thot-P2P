@@ -1,12 +1,10 @@
 extends Control
 
 
-var network 
 var ip = "127.0.0.1"
 var port = 4343
 @onready var conteiner = $"../PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2"
-func _ready() -> void:
-	network = Service.new()
+
 
 
 

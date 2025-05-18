@@ -28,6 +28,8 @@ var upnp_ports := {}
 
 # Agregar servidor con tipo y puerto
 func add_server(type: String, port: int) -> bool:
+	if !port > 0 and port <= 65535:
+		return false
 	if type not in ConnectionType.values():
 		print("Tipo no válido para un socket:", type)
 		return false
@@ -89,6 +91,8 @@ func remove_server(type: String, port: int):
 
 # Agregar cliente con IP, tipo y puerto
 func add_client(type: String, ip: String, port: int):
+	if !port > 0 and port <= 65535:
+		return false
 	if type not in ConnectionType.values():
 		print("Tipo no válido para un socket: ", type)
 		return false
@@ -165,6 +169,33 @@ func get_servers() -> Dictionary:
 
 func get_clients() -> Dictionary:
 	return clients
+
+
+
+func send(type , ip , port, pack):
+	if type in clients:
+		# Buscar en client_nodes
+		if type in client_nodes:
+			for client_data in client_nodes[type]:
+				if client_data["ip"] == ip and client_data["port"] == port:
+					var client_node = client_data["node"]  # Obtener referencia del nodo
+					if client_node.has_method("send_pack"):
+						client_node.send_pack(pack)
+						return
+					else:
+						prints("Error: Network 'send_pack'")
+
+	if type in servers and port in servers[type]:
+		var server_node = servers[type][port]
+
+		if server_node.has_method("send_pack"):
+			server_node.send_pack(pack)
+			return
+		else:
+			prints("Error: Network 'send_pack'")
+	prints("Error: Network service no esta iniciado")
+
+
 
 # Registrar UPnP
 func enable_upnp():

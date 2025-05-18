@@ -14,9 +14,9 @@ var thread = null
 func _init(ip , port) -> void:
 	server_custom.set_bind_ip(ip)
 	self.port = port
-	thread = Thread.new()
-	thread.start(_upnp_setup.bind(port))
-	pass
+	#thread = Thread.new()
+	#thread.start(_upnp_setup.bind(port))
+	#pass
 
 
 
@@ -144,16 +144,19 @@ func init_group():
 	self.send_msjs = get_tree().get_first_node_in_group("msj")
 	
 
+func send_pack(pack):
+	prints(pack)
+	rpc_sms.rpc(pack,1)
 
 
 
-
-func send_msj(id,dat,mode):
-	rpc_sms.rpc_id(id,dat,mode)
-
-func send_msja(dat, mode):
-	rpc_sms.rpc(dat,mode)
-	prints(dat,mode)
+#
+#func send_msj(id,dat,mode):
+	#rpc_sms.rpc_id(id,dat,mode)
+#
+#func send_msja(dat, mode):
+	#rpc_sms.rpc(dat,mode)
+	#prints(dat,mode)
 
 func _exit_tree() -> void:
 	prints("adios")

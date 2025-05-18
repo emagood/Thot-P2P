@@ -1,12 +1,13 @@
 extends Node
 class_name NetworkServer
-
+'''
 ### user quite la classe global 
 #class ClientData:
 #
 	#var peer: PacketPeerStream
 	#var connection: StreamPeerTCP
-
+	send_pack agregar un id al peer o mandar defecto a todos
+'''
 # Network
 var server: TCPServer # Holds the TCP Server Object
 var client_datas: Dictionary = {}
@@ -107,7 +108,7 @@ func _process(_delta):
 	##_game.on_peer_add(id)
 
 
-func send_data(client_id: int, data):
+func send_pack(client_id: int, data):
 	if client_datas.has(client_id):
 		client_datas[client_id].peer.put_var(data)
 		print("[SERVER] Data sent to client %d: %s" % [client_id, str(data)]) #///quitar ///
