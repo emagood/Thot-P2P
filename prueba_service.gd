@@ -1,5 +1,5 @@
 extends Control
-	
+''' solo para prueba de la clase servicio '''
 	#
 #func _ready() -> void:
 	## Creamos una instancia del NetworkManager
