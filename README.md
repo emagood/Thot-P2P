@@ -8,14 +8,14 @@ WebSocket, y TCP_Peer. Su objetivo principal es conectar dispositivos e intercam
 
 ## Características
 
-- **Conexiones P2P**: Soporte para conexiones P2P utilizando ENet, WebSocket, y TCP_Peer.
+- **Conexiones P2P**: Soporte para conexiones P2P utilizando ENet, WebSocket , webrtc, y TCP , UDP.
 - **Intercambio de Información**: Permite enviar y recibir mensajes entre dos dispositivos conectados.
 - **Implementación Modular**: Cada método de conexión está implementado como un módulo independiente, facilitando su uso y modificación.
 
 ## Requisitos
 
 - Godot Engine 4.4 o superior.
-- Conexión a Internet y/o lolcalhost.
+- Conexión a Internet y/o lolcalhost , ipv 4/6.
 - Dos dispositivos compatibles con Godot (pueden ser ordenadores, smartphones, etc.).
 
 ## Instalación
@@ -35,11 +35,11 @@ WebSocket, y TCP_Peer. Su objetivo principal es conectar dispositivos e intercam
 
 1. **Selecciona el método de conexión**:
     - Dentro de Godot, abre la escena principal.
-    - En el inspector, selecciona el método de conexión deseado (ENet, WebSocket, TCP_Peer).
+    - En el inspector, selecciona el método de conexión deseado (ENet, WebSocket, TCP).
 
 2. **Inicia la aplicación en ambos dispositivos**:
     - Ejecuta el proyecto en dos dispositivos.
-    - Asegúrate de que ambos dispositivos estén en la misma red (para ENet y TCP_Peer) o tengan acceso a Internet (para WebSocket).
+    - Asegúrate de que ambos dispositivos estén en la misma red (para ENet y TCP) o tengan acceso a Internet (para WebSocket).
 
 3. **Conexión y comunicación**:
     - En uno de los dispositivos, selecciona "Host" para iniciar el servidor.
@@ -56,7 +56,7 @@ Es ideal para aplicaciones que requieren baja latencia y alta confiabilidad.
 - Aplicaciones de chat en tiempo real.
 - Transferencia de archivos pequeños en redes locales.
 
-### WebSocket
+### WebSocket and webrtc
 
 WebSocket proporciona una comunicación bidireccional a través de una sola conexión TCP.
 Es ideal para aplicaciones basadas en web que requieren una comunicación en tiempo real.
@@ -64,7 +64,7 @@ Es ideal para aplicaciones basadas en web que requieren una comunicación en tie
 - Juegos multijugador basados en navegador.
 - Aplicaciones IoT que requieren comunicación constante con un servidor web.
 
-### TCP_Peer
+### TCP , UDP
 
 TCP_Peer utiliza el protocolo TCP estándar para la comunicación. Es confiable y fácil de implementar para conexiones de red básicas.
 - Aplicaciones de transferencia de archivos que requieren fiabilidad en la entrega de datos.
