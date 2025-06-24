@@ -9,7 +9,7 @@
 ##
 ## Script-IDE does not use global class_name's in order to not clutter projects using it.
 ## Especially since this is an editor only plugin, we do not want this plugin in the final game.
-## Therefore, code that references other code inside this plugin is untyped.
+##    Therefore, code that references other code inside this plugin is untyped.
 @tool
 extends EditorPlugin
 

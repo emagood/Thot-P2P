@@ -38,3 +38,7 @@ func _on_cliente_pressed() -> void:
 	conteiner.add_child(data_exten)
 	prints("⭐️ DATOS AL NODO INSTANCIADO ⭐️" )
 	pass # Replace with function body.
+
+
+func _on_button_pressed() -> void:
+	pass # Replace with function body.

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbkojmkat7ta8"]
+
+[sub_resource type="Resource" id="Resource_bvk1h"]
+metadata/__load_path__ = "res://escena/red/cliente/ClientCustom.gd.gd"
+
+[node name="Node" type="Node"]
+script = SubResource("Resource_bvk1h")

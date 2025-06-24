@@ -3,3 +3,6 @@
 /android/
 *.exe
 *.exe
+/addons/command-terminal
+/addons/script-ide
+core/udp_manager.gd
