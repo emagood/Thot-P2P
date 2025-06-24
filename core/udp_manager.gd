@@ -49,8 +49,8 @@ func start(listen_port):
 
 # 发送UDP消息到指定IP和端口 | Send UDP Message to Specified IP and Port
 func send(text, ip, port):
-	udp.set_dest_address(ip, port)  # 设置目标地址和端口
-									# Set destination address and port
+	udp.set_dest_address(ip, port)  # 设置目标地v  址和端口
+												# Set destination address and port
 	return udp.put_packet(text.to_utf8_buffer())  # 发送UTF-8编码的文本
 												  # Send UTF-8 encoded text
 
