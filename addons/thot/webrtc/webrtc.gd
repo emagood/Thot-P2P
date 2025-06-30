@@ -1,40 +1,12 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream:addons/thot/webrtc/client.gd
-class_name web 
-=======
+
+
 class_name webrtc
->>>>>>> Stashed changes:addons/thot/webrtc/webrtc.gd
-=======
-class_name webrtc
->>>>>>> Stashed changes
-=======
-class_name webrtc
->>>>>>> Stashed changes
-=======
-class_name webrtc
->>>>>>> Stashed changes
+
 extends BaseClient
  
 
 func _init(ip , port ,hosts = false ) -> void:
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-func _init(ip , port ,hosts = false ) -> void:
-
->>>>>>> Stashed changes
-=======
-func _init(ip , port ,hosts = false ) -> void:
-
->>>>>>> Stashed changes
-=======
-func _init(ip , port ,hosts = false ) -> void:
-
->>>>>>> Stashed changes
 	if !ip.is_valid_ip_address():
 		
 		var urlRegex = RegEx.new()
