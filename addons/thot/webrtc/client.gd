@@ -1,6 +1,6 @@
-class_name Client
+class_name web 
 extends BaseClient
-
+ 
 
 func _init() -> void:
 	connected.connect(_connected)
