@@ -1,10 +1,44 @@
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream:addons/thot/webrtc/client.gd
 class_name web 
+=======
+class_name webrtc
+>>>>>>> Stashed changes:addons/thot/webrtc/webrtc.gd
+=======
+class_name webrtc
+>>>>>>> Stashed changes
 extends BaseClient
  
 
-func _init() -> void:
-	connected.connect(_connected)
+func _init(ip , port ,hosts = false ) -> void:
 
+<<<<<<< Updated upstream
+=======
+func _init(ip , port ,hosts = false ) -> void:
+
+>>>>>>> Stashed changes
+	if !ip.is_valid_ip_address():
+		
+		var urlRegex = RegEx.new()
+		var compile_result = urlRegex.compile('^(ftp|http|https)://[^ "]+$')
+		if compile_result != OK:
+			print("Error al compilar el patrón RegEx: ", compile_result)
+			ip = "localhost"
+
+		var result = urlRegex.search(ip)
+		if result:
+			print("URL válida:", result.get_string())
+		else:
+			print("URL inválida.")
+			ip = "localhost"
+		urlRegex.queue_free()
+	
+	host = hosts
+	server_address = "ws://" + ip + ":" + str(port)
+	
+	
+	connected.connect(_connected)
+	String(ip)
 	offer_received.connect(_offer_received)
 	answer_received.connect(_answer_received)
 	candidate_received.connect(_candidate_received)

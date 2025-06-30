@@ -6,8 +6,8 @@ class_name WebServer
 
 @export var port = 8080
 @export var ip  = '"*"'
-var upnp = UPNP.new()
-var thread = null
+#var upnp = UPNP.new()
+#var thread = null
 @export var upnp_ip = 0
 
 
@@ -24,8 +24,8 @@ var peer = WebSocketMultiplayerPeer.new()
 func _init(ip,port):
 	self.port = port
 	self.ip = ip
-	thread = Thread.new()
-	thread.start(_upnp_setup.bind(port))
+	#thread = Thread.new()
+	#thread.start(_upnp_setup.bind(port))
 	#get_tree().set_multiplayer(MultiplayerAPI.create_default_interface(), self)
 	#multiplayer.multiplayer_peer = null
 	
@@ -33,18 +33,18 @@ func _init(ip,port):
 	pass
 	#peer.supported_protocols = ["ludus"]
 
-func _upnp_setup(server_port):
-	prints("upnp setup iniciando")
-	var err = upnp.discover()
-	if err != OK:
-		push_error(str(err))
-		return
-	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
-		upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "UDP")
-		#upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "TCP")
-		upnp_ip = upnp.query_external_address()
-		print("Success! Join Address: %s" % upnp_ip)
-
+#func _upnp_setup(server_port):
+	#prints("upnp setup iniciando")
+	#var err = upnp.discover()
+	#if err != OK:
+		#push_error(str(err))
+		#return
+	#if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
+		#upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "UDP")
+		##upnp.add_port_mapping(server_port, server_port, ProjectSettings.get_setting("application/config/name"), "TCP")
+		#upnp_ip = upnp.query_external_address()
+		#print("Success! Join Address: %s" % upnp_ip)
+#
 
 func _ready():
 	
@@ -137,20 +137,20 @@ func _on_Connect_pressed():
 
 
 @rpc("call_remote","any_peer") 
-func send_sms(smj):
+func send_pack(smj):
 	#if not is_multiplayer_authority():
 		#return
 	var peer_id = multiplayer.get_remote_sender_id()
 	prints(":server  " , smj,peer_id)
-	send_sms.rpc_id(peer_id , " te comunicaste con el servidor websocket")
+	send_pack.rpc_id(peer_id , " te comunicaste con el servidor websocket")
 
 func command(cmd) -> void:
-	send_sms.rpc_id(1,cmd)
+	send_pack.rpc_id(1,cmd)
 	#send_sms.rpc_id(1,"hola a todos que tal ")
 	pass # Replace with function body.
 	
 func _exit_tree() -> void:
 	prints("quit")
-	thread.wait_to_finish()
-	upnp.delete_port_mapping(port)
+	#thread.wait_to_finish()
+	#upnp.delete_port_mapping(port)
 	get_tree().set_multiplayer(null, self.get_path())

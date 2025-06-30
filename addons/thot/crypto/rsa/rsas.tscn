@@ -1,0 +1,164 @@
+[gd_scene load_steps=2 format=3 uid="uid://crsut0s0x8mld"]
+
+[ext_resource type="Script" uid="uid://bcmtrwcy64ulj" path="res://back-sever/rsas.gd" id="1_wis4g"]
+
+[node name="rsas" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wis4g")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.716538, 0.459745, 0.478739, 1)
+
+[node name="salir" type="Button" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 33.0
+text = "salir"
+
+[node name="key_gen" type="Button" parent="."]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 40.0
+offset_right = 188.0
+offset_bottom = 71.0
+text = "generar key"
+
+[node name="send_mensaje" type="Button" parent="."]
+layout_mode = 0
+offset_left = 364.0
+offset_top = 40.0
+offset_right = 479.0
+offset_bottom = 71.0
+text = "send mensaje"
+
+[node name="load_key" type="Button" parent="."]
+layout_mode = 0
+offset_left = 281.0
+offset_top = 40.0
+offset_right = 354.0
+offset_bottom = 71.0
+text = "load key"
+
+[node name="save_key" type="Button" parent="."]
+layout_mode = 0
+offset_left = 197.0
+offset_top = 40.0
+offset_right = 271.0
+offset_bottom = 71.0
+text = "save key"
+
+[node name="panel_text" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 98.0
+offset_top = 86.0
+offset_right = -513.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="mensaje" type="TextEdit" parent="panel_text"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "hjguggu"
+emoji_menu_enabled = false
+
+[node name="descrip" type="TextEdit" parent="panel_text"]
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 5.0
+offset_right = 463.0
+offset_bottom = 28.0
+text = "orden : generate ; save ; load and send mensaje "
+
+[node name="big_panel_text" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.971429
+anchor_top = 0.185417
+anchor_right = 0.971429
+anchor_bottom = 0.96875
+offset_left = -453.0
+grow_horizontal = 0
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="encript_mensaje" type="TextEdit" parent="big_panel_text"]
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+wrap_mode = 1
+
+[node name="encript" type="Label" parent="."]
+layout_mode = 0
+offset_left = 507.0
+offset_top = 66.0
+offset_right = 547.0
+offset_bottom = 89.0
+text = "Encrypted message:"
+
+[node name="mensaje" type="Label" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 95.0
+offset_right = 87.0
+offset_bottom = 144.0
+text = "mensaje
+a encriptar"
+
+[node name="decifrado" type="Label" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 280.0
+offset_right = 86.0
+offset_bottom = 329.0
+text = "mensaje 
+decifrado"
+
+[node name="lin_panel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 476.0
+offset_top = 84.0
+offset_right = 516.0
+offset_bottom = 471.0
+text = "#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#"
+
+[connection signal="pressed" from="salir" to="." method="_on_salir_pressed"]
+[connection signal="pressed" from="key_gen" to="." method="_on_key_gen_pressed"]
+[connection signal="pressed" from="send_mensaje" to="." method="_on_send_mensaje_pressed"]
+[connection signal="pressed" from="load_key" to="." method="_on_load_key_pressed"]
+[connection signal="pressed" from="save_key" to="." method="_on_save_key_pressed"]

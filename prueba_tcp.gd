@@ -15,11 +15,6 @@ func _ready():
 	network_client = NetworkClient.new()
 	#pass
 
-
-
-
-
-
  ############### signal server 
 func data_server(peer,data):
 	var lavel = Label.new()
