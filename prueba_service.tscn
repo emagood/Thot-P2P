@@ -23,24 +23,43 @@ script = ExtResource("2_gtas1")
 
 [node name="LineEdit" type="LineEdit" parent="menu"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 171.0
-offset_right = 156.563
-offset_bottom = 202.0
+offset_left = 45.0
+offset_top = 170.0
+offset_right = 113.563
+offset_bottom = 201.0
 placeholder_text = "type"
 max_length = 5
 
 [node name="help" type="Label" parent="menu"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 3.0
-offset_right = 50.0
-offset_bottom = 26.0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 48.0
+offset_bottom = 29.0
 text = "type
 \"udp\"
 \"tcp\"
-\"web\"
+\"webs\"
+\"webr\"
 \"enet\""
+
+[node name="HBoxContainer" type="HBoxContainer" parent="menu"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 206.0
+offset_right = 251.0
+offset_bottom = 246.0
+
+[node name="ip_ws_" type="LineEdit" parent="menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "ip/ws:"
+max_length = 16
+
+[node name="port" type="LineEdit" parent="menu/HBoxContainer"]
+layout_mode = 2
+placeholder_text = "port"
+max_length = 8
 
 [node name="server" type="Button" parent="."]
 layout_mode = 0
@@ -52,10 +71,10 @@ text = "server"
 
 [node name="cliente" type="Button" parent="."]
 layout_mode = 0
-offset_left = 167.0
-offset_top = 122.0
-offset_right = 228.0
-offset_bottom = 130.0
+offset_left = 162.0
+offset_top = 125.0
+offset_right = 223.0
+offset_bottom = 133.0
 text = "cliente"
 
 [node name="CheckButton" type="CheckButton" parent="."]
@@ -109,3 +128,4 @@ layout_mode = 2
 
 [connection signal="pressed" from="server" to="menu" method="_on_server_pressed"]
 [connection signal="pressed" from="cliente" to="menu" method="_on_cliente_pressed"]
+[connection signal="toggled" from="CheckButton" to="menu" method="_on_check_button_toggled"]

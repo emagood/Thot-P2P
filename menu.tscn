@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://rtgyom8nt1ly"]
 
-[ext_resource type="Script" path="res://menu.gd" id="1_lti8b"]
+[ext_resource type="Script" uid="uid://ooi5eifk8gae" path="res://menu.gd" id="1_lti8b"]
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -49,6 +49,14 @@ text = "udp simple"
 [node name="exit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "exit"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 169.0
+offset_top = 1.0
+offset_right = 433.0
+offset_bottom = 24.0
+text = "no se si funciona todo como debe "
 
 [connection signal="pressed" from="VBoxContainer/websocket" to="." method="_on_websocket_pressed"]
 [connection signal="pressed" from="VBoxContainer/tcp" to="." method="_on_tcp_pressed"]

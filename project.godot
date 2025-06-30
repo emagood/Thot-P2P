@@ -21,7 +21,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-CommandServer="*res://addons/command-terminal/src/CommandServer.gd"
+Thot="*res://addons/thot/service.gd"
 
 [display]
 
@@ -30,7 +30,7 @@ window/size/viewport_height=512
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/command-terminal/plugin.cfg")
+enabled=PackedStringArray("res://addons/thot/plugin.cfg")
 
 [file_customization]
 
