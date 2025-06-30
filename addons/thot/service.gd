@@ -5,13 +5,19 @@ extends Node
 const ConnectionType = {
 	UDP = "udp",
 	TCP = "tcp",
-	WEBSOCKET = "websocket",
+	WEBSOCKET = "webs",
+	WEBRTC = "webr",
 	ENET = "enet"
 }
 
 # Diccionarios para registrar servidores y clientes por tipo de conexión
 var servers := {}  # Ahora almacena { puerto: { "type": tipo, "node": instancia } } Registra servidores por tipo (ej. "UDP", "TCP", "ENet")
 var clients := {}  # Registra clientes por tipo (ej. "UDP", "TCP")
+
+# Para el upnp seting , configuracion
+var upnp = UPNP.new()
+var thread = null
+
 
 # Arrays que almacenan nodos activos
 var server_nodes := {}  # Guarda las instancias de servidores
@@ -25,7 +31,23 @@ var upnp_enabled := false
 var upnp_ports := {}
 
 
+func _ready() -> void:
+	print("hola init")
+#
+	#var url = "htp://forum.godotengine.org/t/validate-if-a-string-is-a-url/37448/3"
+	#var urlRegex = RegEx.new()
+	#var compile_result = urlRegex.compile('^(ftp|http|https)://[^ "]+$')
+	#if compile_result != OK:
+		#print("Error al compilar el patrón RegEx: ", compile_result)
+		#return
+#
+	#var result = urlRegex.search(url)
+	#if result:
+		#print("URL válida:", result.get_string())
+	#else:
+		#print("URL inválida.")
 
+	thread = Thread.new()
 
 # Agregar servidor con tipo y puerto
 func add_server(type: String, port: int) -> bool:
@@ -51,6 +73,8 @@ func add_server(type: String, port: int) -> bool:
 			server = NetworkServer.new("*", port)
 		ConnectionType.WEBSOCKET:
 			server = WebServer.new("*", port)
+		ConnectionType.WEBRTC:
+			server = webrtc.new("*", port ,true)
 		ConnectionType.ENET:
 			server = Eserver.new("*", port)
 
@@ -199,26 +223,59 @@ func send(type , ip , port, pack):
 
 
 # Registrar UPnP
-func enable_upnp():
+func enable_upnp(port):
+	#if upnp_enabled == true:
+		#return
+	thread.start(register_upnp_port.bind(port))
 	upnp_enabled = true
 	print("UPnP habilitado")
+	thread.wait_to_finish()
 
-func disable_upnp():
-	upnp_enabled = false
+func disable_upnp(port):
+	if upnp_ports.has(port):
+		#print("El puerto UPnP ya está registrado: ", port)
+		upnp.delete_port_mapping(port)
+		upnp_enabled = false
+	else:
+		print("El puerto UPnP no está registrado: ", port)
+		return
+
 	print("UPnP deshabilitado")
 
 func register_upnp_port(port: int):
-	if not upnp_enabled:
+	if not Thot.upnp_enabled:
 		print("No se puede registrar UPnP, está deshabilitado.")
 		return
 	
-	if upnp_ports.has(port):
-		print("El puerto UPnP ya está registrado: ", port)
+	if Thot.upnp_ports.has(port):
+		print("El puerto UPnP ya está registrado: ", upnp_ports[port])
 		return
+	prints("upnp setup iniciando")
 	
+	var err = upnp.discover()
+	if err != OK:
+		push_error(str(err))
+		return
+	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
+		upnp.add_port_mapping(port, port, ProjectSettings.get_setting("application/config/name"), "UDP")
+		upnp.add_port_mapping(port, port, ProjectSettings.get_setting("application/config/name"), "TCP")
+		#upnp.add_port_mapping(port, port, ProjectSettings.get_setting("applicationname"), "TCP")
+		#if map_result != UPNP.UPNP_RESULT_SUCCESS:
+			#push_error("Fallo al mapear el puerto: %s" % map_result)
+			#
+		var external_ip = upnp.query_external_address()
+		print("Success! Join Address: %s" % external_ip)
+		Thot.upnp_ports[port] = external_ip
+
 	# Si UPnP está habilitado y el puerto no está registrado, se agrega
-	upnp_ports[port] = true
-	print("Puerto UPnP registrado: ", port)
+	#upnp_ports[port] = external_ip
+	print("Puerto UPnP registrado: ",Thot.upnp_ports[port])
 
 func is_upnp_port_open(port: int) -> bool:
 	return upnp_ports.get(port, false)
+
+
+
+func _exit_tree():
+	# Wait for thread finish here to handle game exit while the thread is running.
+	thread.wait_to_finish()

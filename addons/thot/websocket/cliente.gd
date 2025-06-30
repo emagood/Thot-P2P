@@ -7,8 +7,25 @@ class_name WebClient
 var peer = WebSocketMultiplayerPeer.new()
 
 func _init(ip: String = "localhost", port: int = 8080):
+	if !ip.is_valid_ip_address():
+		
+		var urlRegex = RegEx.new()
+		var compile_result = urlRegex.compile('^(ftp|http|https)://[^ "]+$')
+		if compile_result != OK:
+			print("Error al compilar el patrón RegEx: ", compile_result)
+			ip = "localhost"
+
+		var result = urlRegex.search(ip)
+		if result:
+			print("URL válida:", result.get_string())
+		else:
+			print("URL inválida.")
+			ip = "localhost"
+		urlRegex.queue_free()
+	
 	self.port = port
 	self.ip = ip
+	
 
 func _ready():
 	get_tree().set_multiplayer(MultiplayerAPI.create_default_interface(), self.get_path())
@@ -41,7 +58,7 @@ func _peer_disconnected(id):
 	print("Disconnected :cliente %d" % id)
 
 @rpc("any_peer")
-func send_sms(smj):
+func send_pack(smj):
 	#if not is_multiplayer_authority():
 		#return
 	var peer_id = multiplayer.get_remote_sender_id()
@@ -49,7 +66,7 @@ func send_sms(smj):
 	prints(":cliente  ",mi_id ," recibio ",  smj,peer_id ,)
 
 func command(cmd) -> void:
-	send_sms.rpc_id(1,cmd)
+	send_pack.rpc_id(1,cmd)
 	#send_sms.rpc_id(1,"hola a todos que tal ")
 	pass # Replace with function body.
 

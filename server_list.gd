@@ -4,13 +4,17 @@ extends Control
 @export var type = ""
 @export var server = false
 var network
+@export var upnp = false
 
 func _ready() -> void:
 	# Creamos una instancia del NetworkManager
-	network = Service.new()
-	add_child(network)
+	network = Thot
+	#add_child(network)
 	# Configuramos UPnP (si queremos que esté habilitado)
-	network.enable_upnp()
+	if upnp:
+		network.enable_upnp(port)
+	
+	#network.register_upnp_port(port)
 
 	# Intentamos registrar un servidor UDP en el puerto 12345
 	if server:
@@ -20,7 +24,7 @@ func _ready() -> void:
 			print("Servidor :",type , " creado exitosamente en puerto :" , port)
 		else:
 			print("Error: No se pudo crear el servidor :", type)
-			network.queue_free()
+			#network.queue_free()
 			self.queue_free()
 
 

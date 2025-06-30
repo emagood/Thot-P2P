@@ -1,10 +1,34 @@
-class_name Client
+
+
+class_name webrtc
+
 extends BaseClient
+ 
 
+func _init(ip , port ,hosts = false ) -> void:
 
-func _init() -> void:
+	if !ip.is_valid_ip_address():
+		
+		var urlRegex = RegEx.new()
+		var compile_result = urlRegex.compile('^(ftp|http|https)://[^ "]+$')
+		if compile_result != OK:
+			print("Error al compilar el patrón RegEx: ", compile_result)
+			ip = "localhost"
+
+		var result = urlRegex.search(ip)
+		if result:
+			print("URL válida:", result.get_string())
+		else:
+			print("URL inválida.")
+			ip = "localhost"
+		urlRegex.queue_free()
+	
+	host = hosts
+	server_address = "ws://" + ip + ":" + str(port)
+	
+	
 	connected.connect(_connected)
-
+	String(ip)
 	offer_received.connect(_offer_received)
 	answer_received.connect(_answer_received)
 	candidate_received.connect(_candidate_received)
