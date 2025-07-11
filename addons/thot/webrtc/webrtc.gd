@@ -51,8 +51,23 @@ func _connected(id: int, use_mesh := true):
 func _create_peer(id):
 	var peer: WebRTCPeerConnection = WebRTCPeerConnection.new()
 	peer.initialize({
-		"iceServers": [ { "urls": ["stun:stun.l.google.com:19302"] } ]
-	})
+	"iceServers": [
+		{ "urls": ["stun:stun.l.google.com:19302"] },
+		{ "urls": ["stun:stun1.l.google.com:19302"] },
+		{ "urls": ["stun:stun2.l.google.com:19302"] },
+		{ "urls": ["stun:stun3.l.google.com:19302"] },
+		{ "urls": ["stun:stun4.l.google.com:19302"] },
+		{ "urls": ["stun:stun.ekiga.net:3478"] },
+		{ "urls": ["stun:stun.ideasip.com:3478"] },
+		{ "urls": ["stun:stun.iptel.org:3478"] },
+		{ "urls": ["stun:stun.schlund.de:3478"] },
+		{ "urls": ["stun:stun.voiparound.com:3478"] },
+		{ "urls": ["stun:stun.voipbuster.com:3478"] },
+		{ "urls": ["stun:stun.voipstunt.com:3478"] },
+		{ "urls": ["stun:stun.xten.com:3478"] }
+	]
+})
+
 	peer.session_description_created.connect(_offer_created.bind(id))
 	peer.ice_candidate_created.connect(_new_ice_candidate.bind(id))
 	rtc_mp.add_peer(peer, id)
