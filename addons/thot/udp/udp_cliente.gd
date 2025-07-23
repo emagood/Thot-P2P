@@ -21,8 +21,10 @@ var port := 4343
 var send_timer := 0.0
 const SEND_INTERVAL := 3.0
 
-func _init(initial_host := "127.0.0.1", initial_port := 4343) -> void:
-	host = initial_host
+func _init(initial_host, initial_port := 4343) -> void:
+	if initial_host != "":
+		#prints("elip se establecio : ", initial_host)
+		self.host = initial_host
 	port = initial_port
 	_connect()
 

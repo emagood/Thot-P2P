@@ -143,6 +143,8 @@ func add_client(type: String, ip: String, port: int):
 			client = NetworkClient.new(ip, port)
 		ConnectionType.WEBSOCKET:
 			client = WebClient.new(ip, port)
+		ConnectionType.WEBRTC:
+			client = webrtc.new("*", port )
 		ConnectionType.ENET:
 			client = Eclient.new(ip, port)
 

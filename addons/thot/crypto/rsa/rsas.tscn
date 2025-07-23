@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://crsut0s0x8mld"]
 
-[ext_resource type="Script" uid="uid://bcmtrwcy64ulj" path="res://back-sever/rsas.gd" id="1_wis4g"]
+[ext_resource type="Script" uid="uid://bg21ua5di3j2v" path="res://addons/thot/crypto/rsa/rsas.gd" id="1_wf7ef"]
 
 [node name="rsas" type="Control"]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_wis4g")
+script = ExtResource("1_wf7ef")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
