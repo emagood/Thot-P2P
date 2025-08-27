@@ -1,6 +1,6 @@
-class_name BaseClient
+#class_name BaseClient
 extends Node
-
+signal test
 signal connected
 signal disconnected
 signal connection_timeout
@@ -37,6 +37,7 @@ var _last_state := WebSocketPeer.STATE_CLOSED
 
 
 func _process(_delta: float) -> void:
+	test.emit()
 	ws.poll()
 	var state = ws.get_ready_state()
 
@@ -61,10 +62,11 @@ func start(lobby: String, h: bool) -> void:
 	ws.connect_to_url(server_address)
 
 	# Timeout
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(5.0).timeout
 	if ws.get_ready_state() == WebSocketPeer.STATE_CONNECTING:
+		prints("fuera de tiempo")
 		connection_timeout.emit()
-		close()
+		#close()
 
 
 func stop() -> void:
@@ -163,5 +165,6 @@ func _send_msg(type: int, id: int, data:="") -> int:
 	return ws.send_text(JSON.stringify({
 		"type": type,
 		"id": id,
-		"data": data
+		"data": data,
+		"lobby_id": _lobby
 	}))

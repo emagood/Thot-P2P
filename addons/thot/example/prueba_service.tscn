@@ -1,0 +1,135 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsdlubcsj8trn"]
+
+[ext_resource type="Script" uid="uid://c7bitgawdn2fs" path="res://addons/thot/example/menu_service.gd" id="2_gtas1"]
+
+[node name="prueba_service" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_gtas1")
+
+[node name="LineEdit" type="LineEdit" parent="menu"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 170.0
+offset_right = 113.563
+offset_bottom = 201.0
+text = "webr"
+placeholder_text = "type"
+max_length = 5
+
+[node name="help" type="Label" parent="menu"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 48.0
+offset_bottom = 29.0
+text = "type
+\"udp\"
+\"tcp\"
+\"webs\"
+\"webr\"
+\"enet\""
+
+[node name="HBoxContainer" type="HBoxContainer" parent="menu"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 206.0
+offset_right = 251.0
+offset_bottom = 246.0
+
+[node name="ip_ws_" type="LineEdit" parent="menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "ip/ws:"
+max_length = 16
+
+[node name="port" type="LineEdit" parent="menu/HBoxContainer"]
+layout_mode = 2
+placeholder_text = "port"
+max_length = 8
+
+[node name="server" type="Button" parent="."]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 124.0
+offset_right = 153.0
+offset_bottom = 132.0
+text = "server"
+
+[node name="cliente" type="Button" parent="."]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 125.0
+offset_right = 223.0
+offset_bottom = 133.0
+text = "cliente"
+
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 58.0
+offset_right = 252.0
+offset_bottom = 82.0
+
+[node name="edot_msj" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 272.0
+offset_right = 151.0
+offset_bottom = 303.0
+placeholder_text = "mensaje"
+
+[node name="enviar_smj" type="Button" parent="."]
+layout_mode = 0
+offset_left = 163.0
+offset_top = 272.0
+offset_right = 201.0
+offset_bottom = 280.0
+text = "enviar"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 6.0
+offset_right = 602.0
+offset_bottom = 393.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_stretch_ratio = 12.21
+
+[node name="Edit" type="TextEdit" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+scroll_smooth = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+alignment = 1
+
+[connection signal="pressed" from="server" to="menu" method="_on_server_pressed"]
+[connection signal="pressed" from="cliente" to="menu" method="_on_cliente_pressed"]
+[connection signal="toggled" from="CheckButton" to="menu" method="_on_check_button_toggled"]

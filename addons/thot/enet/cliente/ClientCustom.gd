@@ -16,7 +16,7 @@ var multiplayer_api : MultiplayerAPI
 var type = "enet"
 @export var rpc_true = false
 @export var address = "127.0.0.1"
-@export var port = 8888
+@export var port = 9999
 var local_id = ""
 
 
@@ -38,7 +38,9 @@ func _ready():
 	client_custom.create_client(address, port)
 	multiplayer_api = MultiplayerAPI.create_default_interface()
 	get_tree().set_multiplayer(multiplayer_api, self.get_path()) 
-	multiplayer_api.multiplayer_peer = client_custom
+	
+	
+	#multiplayer_api.multiplayer_peer = client_custom
 	
 	multiplayer_api.connected_to_server.connect(_on_connection_succeeded)
 	multiplayer_api.connection_failed.connect(_on_connection_failed)
@@ -61,18 +63,18 @@ func _process(_delta: float) -> void:
 		#prints("vasio")
 	if multiplayer_api.has_multiplayer_peer():
 		multiplayer_api.poll()
-		
-		
-		if local_id != "" and rpc_true == false:
-			prints("sali")
-			#if Data.t_id.has(local_id.to_int()):
-				#Data.t_id.erase(local_id.to_int())
-				#prints("salgo")
-			#queue_free()
-
-func init_group():
-	self.send_msjs = get_tree().get_first_node_in_group("msj")
-
+		#
+		#
+		#if local_id != "" and rpc_true == false:
+			#prints("sali")
+			##if Data.t_id.has(local_id.to_int()):
+				##Data.t_id.erase(local_id.to_int())
+				##prints("salgo")
+			##queue_free()
+##
+##func init_group():
+	##self.send_msjs = get_tree().get_first_node_in_group("msj")
+##
 
 func _on_server_disconnected():
 	rpc_true = false
@@ -127,9 +129,9 @@ func rpc_login(test_var1 : String = "bienvenido al servidor ", test_var2 : Strin
 @rpc("call_remote","any_peer") 
 func rpc_sms(msg, mode):
 	var peer_id = multiplayer.get_remote_sender_id() 
-	if send_msjs == null :
-		init_group()
-	#if mode == 1:
+	#if send_msjs == null :
+		#init_group()
+	##if mode == 1:
 	#send_msjs.msj_entra = str(msg + " "  + " mensaje de   " + str(peer_id) )
 	prints("yo resivi cliente  "  ,msg , mode ) #+ str(Data.t_id) ,
 

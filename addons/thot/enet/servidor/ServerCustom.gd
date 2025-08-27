@@ -6,7 +6,7 @@ var multiplayer_api : MultiplayerAPI
 var upnp = UPNP.new()
 var thread = null
 @export var upnp_ip = 0
-@export var port = 8888
+@export var port = 9999
 @export var max_peers = 999
 @onready var rpc_local = get_tree().get_first_node_in_group("rpc_local")
 @onready var send_msjs = get_tree().get_first_node_in_group("msj")
@@ -32,10 +32,18 @@ func _ready():
 
 	get_tree().set_multiplayer(multiplayer_api, self.get_path())
 	# can use "/root/ServerCustom" or self.get_path()
-	multiplayer_api.multiplayer_peer = server_custom
+	
+#	test
+	#multiplayer_api.multiplayer_peer = server_custom
+	
+	
 	#Data.t_id[multiplayer_api.get_unique_id()] = port
 	prints(" mi id servidor " + str(multiplayer_api.get_unique_id()))
 	
+	#thread = Thread.new()
+	#thread.start(_upnp_setup.bind(port))
+	#pass
+
 	
 
 
@@ -98,8 +106,7 @@ func rpc_login( test_var1 : String = "bienvenido al servidor ", test_var2 : Stri
 
 @rpc("call_remote","any_peer")  
 func rpc_sms(msg, mode):
-	if send_msjs == null:
-		init_group()
+
 	#if test_var2 == 1:
 	var peer_id = multiplayer.get_remote_sender_id()
 	#send_msjs.msj_entra = str(msg + " "  + " mensaje de   " + str(peer_id) )
@@ -139,10 +146,6 @@ func _input(event: InputEvent) -> void:
 
 ## quitar esto de aqui
 
-func init_group():
-	self.rpc_local = get_tree().get_first_node_in_group("rpc_local")
-	self.send_msjs = get_tree().get_first_node_in_group("msj")
-	
 
 func send_pack(pack):
 	prints(pack)
@@ -160,5 +163,3 @@ func send_pack(pack):
 
 func _exit_tree() -> void:
 	prints("adios")
-	thread.wait_to_finish()
-	upnp.delete_port_mapping(port)

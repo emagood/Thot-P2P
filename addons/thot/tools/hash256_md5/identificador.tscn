@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0t51de63v8c0"]
+
+[ext_resource type="Script" uid="uid://ber2rli5j3nsr" path="res://addons/thot/tools/hash256_md5/identificador.gd" id="1_4o5m6"]
+[ext_resource type="Script" uid="uid://w5ngeab62emv" path="res://quit/prueba hash.gd" id="2_jmlcn"]
+[ext_resource type="Script" uid="uid://cyc0y4jln4igq" path="res://quit/hash_256.gd" id="3_s3ejb"]
+
+[node name="identificador" type="Node"]
+script = ExtResource("1_4o5m6")
+
+[node name="hash" type="Node" parent="."]
+script = ExtResource("2_jmlcn")
+
+[node name="hash_256" type="Node" parent="."]
+script = ExtResource("3_s3ejb")

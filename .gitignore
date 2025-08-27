@@ -7,3 +7,4 @@
 /addons/script-ide
 core/udp_manager.gd
 
+/addons/thot/libp2p-godot/lib/debug

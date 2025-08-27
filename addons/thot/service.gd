@@ -1,4 +1,4 @@
-
+#Thot p2p
 class_name Service
 extends Node
 
@@ -16,7 +16,7 @@ var clients := {}  # Registra clientes por tipo (ej. "UDP", "TCP")
 
 # Para el upnp seting , configuracion
 var upnp = UPNP.new()
-var thread = null
+var thread = Thread
 
 
 # Arrays que almacenan nodos activos
@@ -32,8 +32,10 @@ var upnp_ports := {}
 
 
 func _ready() -> void:
-	print("hola init")
-#
+
+
+#region regex sin uso
+
 	#var url = "htp://forum.godotengine.org/t/validate-if-a-string-is-a-url/37448/3"
 	#var urlRegex = RegEx.new()
 	#var compile_result = urlRegex.compile('^(ftp|http|https)://[^ "]+$')
@@ -46,11 +48,12 @@ func _ready() -> void:
 		#print("URL válida:", result.get_string())
 	#else:
 		#print("URL inválida.")
-
+#endregion
+	
 	thread = Thread.new()
 
-# Agregar servidor con tipo y puerto
-func add_server(type: String, port: int) -> bool:
+#region Agregar o quitar servidor con tipo y puerto
+func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4.dev3") -> bool:
 	if !port > 0 and port <= 65535:
 		return false
 	if type not in ConnectionType.values():
@@ -74,15 +77,37 @@ func add_server(type: String, port: int) -> bool:
 		ConnectionType.WEBSOCKET:
 			server = WebServer.new("*", port)
 		ConnectionType.WEBRTC:
-			server = webrtc.new("*", port ,true)
+			
+		
+			var data_exten = load("res://addons/thot/escena/main.tscn").instantiate()
+			data_exten.lobby = lobby
+	
+		
+			data_exten.is_server = true
+			
+			node.add_child(data_exten)
+			prints("⭐️ node webrtc ⭐️" )
+					
+			server = data_exten
+			server._host()
+			#server = webrtc.new("*", port ,lobby,true)
+			#
+			#server.connection_timeout.connect(_off_time)
+			#add_child(server)
 		ConnectionType.ENET:
 			server = Eserver.new("*", port)
+			
+		var server_type:
+			prints("error de tipo server no existe : " ,  server_type)
 
 	if server == null:
 		print("Error: No se pudo instanciar el servidor de tipo", type)
 		return false
+	if !type == "webr":
+		server.name = "server"+str(lobby)
+		node.add_child(server)
 
-	add_child(server)
+		
 
 	# Guardar el servidor en el diccionario por tipo y puerto
 	servers[type][port] = server
@@ -92,7 +117,7 @@ func add_server(type: String, port: int) -> bool:
 
 
 # Eliminar servidor con tipo y puerto
-func remove_server(type: String, port: int):
+func remove_server( type: String, port: int):
 	if type in servers and port in servers[type]:
 		var server_node = servers[type][port]
 		
@@ -109,13 +134,11 @@ func remove_server(type: String, port: int):
 			servers.erase(type)
 	else:
 		print("No existe un servidor de tipo ", type, "en el puerto: ", port)
+#endregion
 
 
-
-
-
-# Agregar cliente con IP, tipo y puerto
-func add_client(type: String, ip: String, port: int):
+#region Agregar o quitar cliente con IP, tipo y puerto
+func add_client(node ,type: String, ip: String, port: int, lobby: String = "webrtc_godot_4.4.dev3"):
 	if !port > 0 and port <= 65535:
 		return false
 	if type not in ConnectionType.values():
@@ -133,7 +156,7 @@ func add_client(type: String, ip: String, port: int):
 			print("El cliente ya está registrado: ", ip, ":", port)
 			return false
 
-	# Instanciar la clase correspondiente al tipo de cliente
+	# Instanciar 
 	var client = null
 
 	match type:
@@ -144,25 +167,47 @@ func add_client(type: String, ip: String, port: int):
 		ConnectionType.WEBSOCKET:
 			client = WebClient.new(ip, port)
 		ConnectionType.WEBRTC:
-			client = webrtc.new("*", port )
+
+			var runner_scene := preload("res://addons/thot/escena/main.gd")
+			var runner := runner_scene.new()
+			#var current_scene := get_tree().get_current_scene()
+			#if current_scene == null:
+				#push_error("No hay escena activa para ejecutar UPNP")
+			prints("runer run ")
+			runner.name = "webrtcmain"
+			runner.lobby = lobby
+			runner.hotok = false
+			node.call_deferred("add_child", runner)
+			
+			client = runner
+
+			#client = webrtc.new("*", port, lobby, false)
+			prints("desde cliente webr : ",  lobby)
 		ConnectionType.ENET:
 			client = Eclient.new(ip, port)
+			
+		var cliente_type:
+			prints("no existe ese protocolo " , cliente_type)
 
 	# Verificar si la instancia se creó correctamente
 	if client == null:
 		print("Error: No se pudo instanciar el cliente de tipo ", type)
 		return false
+	if !type == "webr":
+		node.add_child(client)
 
-	add_child(client)
+
+
+	
 
 	# Guardar nodo del cliente en el registro con IP y puerto
 	if type not in client_nodes:
 		client_nodes[type] = []
-	client_nodes[type].append({"node": client, "ip": ip, "port": port})
+	client_nodes[type].append({"node": client, "ip": ip, "port": port })
 
 	# Agregar cliente al registro
 	clients[type].append(client_info)
-	print("Cliente agregado: ", ip, " : ", port, " al tipo ", type)
+	print("Cliente agregado: ", ip, " : ", port, " al tipo ", type , "node " , node)
 
 	return true
 
@@ -175,6 +220,9 @@ func remove_client(type: String, ip: String, port: int):
 			for client_data in client_nodes[type]:
 				if client_data["ip"] == ip and client_data["port"] == port:
 					var client_node = client_data["node"]  # Obtener referencia del nodo
+					if client_node.has_method("stop"):
+						prints("cliente stop run")
+						client_node.stop()
 					client_node.queue_free()  # Liberar nodo
 
 					client_nodes[type].erase(client_data)  # Eliminar del registro
@@ -188,17 +236,24 @@ func remove_client(type: String, ip: String, port: int):
 				return
 	
 	print("No se encontró el cliente: ", ip, " : ", port)
+#endregion
 
 
+#region get server and client
 # Obtener lista de servidores y clientes
 func get_servers() -> Dictionary:
 	return servers
 
 func get_clients() -> Dictionary:
 	return clients
+	
+func get_client_node() -> Dictionary:
+	return client_nodes
+
+#endregion
 
 
-
+#region enviar send 
 func send(type , ip , port, pack):
 	if type in clients:
 		# Buscar en client_nodes
@@ -221,27 +276,28 @@ func send(type , ip , port, pack):
 		else:
 			prints("Error: Network 'send_pack'")
 	prints("Error: Network service no esta iniciado")
+#endregion
 
 
-
-# Registrar UPnP
+#region Registrar UPnP
 func enable_upnp(port):
-	#if upnp_enabled == true:
+	#if upnp_enabled == false:
 		#return
-	thread.start(register_upnp_port.bind(port))
+	#thread.start(register_upnp_port.bind(port))
+	register_upnp_port(port)
 	upnp_enabled = true
 	print("UPnP habilitado")
-	thread.wait_to_finish()
+	
 
 func disable_upnp(port):
 	if upnp_ports.has(port):
 		#print("El puerto UPnP ya está registrado: ", port)
-		upnp.delete_port_mapping(port)
+		#upnp.delete_port_mapping(port)
 		upnp_enabled = false
 	else:
 		print("El puerto UPnP no está registrado: ", port)
-		return
 
+	upnp_enabled = false
 	print("UPnP deshabilitado")
 
 func register_upnp_port(port: int):
@@ -253,31 +309,54 @@ func register_upnp_port(port: int):
 		print("El puerto UPnP ya está registrado: ", upnp_ports[port])
 		return
 	prints("upnp setup iniciando")
+	#upnp = 
 	
-	var err = upnp.discover()
-	if err != OK:
-		push_error(str(err))
-		return
-	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
-		upnp.add_port_mapping(port, port, ProjectSettings.get_setting("application/config/name"), "UDP")
-		upnp.add_port_mapping(port, port, ProjectSettings.get_setting("application/config/name"), "TCP")
-		#upnp.add_port_mapping(port, port, ProjectSettings.get_setting("applicationname"), "TCP")
-		#if map_result != UPNP.UPNP_RESULT_SUCCESS:
-			#push_error("Fallo al mapear el puerto: %s" % map_result)
-			#
-		var external_ip = upnp.query_external_address()
-		print("Success! Join Address: %s" % external_ip)
-		Thot.upnp_ports[port] = external_ip
+	var runner_scene := preload("res://addons/thot/tools/upnp/upnp_call.gd")
+	var runner := runner_scene.new()
 
-	# Si UPnP está habilitado y el puerto no está registrado, se agrega
-	#upnp_ports[port] = external_ip
-	print("Puerto UPnP registrado: ",Thot.upnp_ports[port])
+	var current_scene := get_tree().get_current_scene()
+	if current_scene == null:
+		push_error("No hay escena activa para ejecutar UPNP")
+		return
+		prints("runer run ")
+	runner.port = port
+	current_scene.call_deferred("add_child", runner)
+	#call_deferred("add_child", runner)
+	#print(runner.is_inside_tree())
+	#current_scene.add_child(runner)
+	print("Nodo auxiliar UPNP agregado al árbol")
+	
+	
+	#node.add_child(UPNP.new())
+	#var upnp_seting = node.upnp
+	#var err = upnp_seting.discover()
+	#if err != OK:
+		#push_error(str(err))
+		##return
+	#if upnp_seting.get_gateway() and upnp_seting.get_gateway().is_valid_gateway():
+		#upnp_seting.add_port_mapping(port, port, ProjectSettings.get_setting("application/config/name"), "UDP")
+		#upnp_seting.add_port_mapping(port, port, ProjectSettings.get_setting("application/config/name"), "TCP")
+		##upnp.add_port_mapping(port, port, ProjectSettings.get_setting("applicationname"), "TCP")
+		##if map_result != UPNP.UPNP_RESULT_SUCCESS:
+			##push_error("Fallo al mapear el puerto: %s" % map_result)
+			##
+		#var external_ip = upnp_seting.query_external_address()
+		#print("Success! Join Address: %s" % external_ip)
+		#Thot.upnp_ports[port] = external_ip
+#
+	## Si UPnP está habilitado y el puerto no está registrado, se agrega
+	##upnp_ports[port] = external_ip
+	print("Puerto UPnP registrado: ",Thot.upnp_ports)
 
 func is_upnp_port_open(port: int) -> bool:
 	return upnp_ports.get(port, false)
-
+#endregion fin upnp
 
 
 func _exit_tree():
-	# Wait for thread finish here to handle game exit while the thread is running.
+	
 	thread.wait_to_finish()
+
+
+func _off_time():
+	prints("fuera tiempo")

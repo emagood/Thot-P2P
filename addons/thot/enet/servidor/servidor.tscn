@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://b01navhh6bpox"]
+[gd_scene load_steps=2 format=3 uid="uid://b01navhh6bpox"]
+
+[ext_resource type="Script" uid="uid://c80sgqcwg7f03" path="res://addons/thot/enet/servidor/ServerCustom.gd" id="1_t55oy"]
 
 [node name="Node" type="Node"]
+script = ExtResource("1_t55oy")

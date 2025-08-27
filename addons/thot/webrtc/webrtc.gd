@@ -4,38 +4,52 @@ class_name webrtc
 
 extends BaseClient
  
+var lobby_id = ""
+var hosts : bool
+const names = [
+	"John", "Paul", "Gaylord", "Adalbert", "Oli",
+	"Elena", "Marta", "Leo", "Nina", "Samuel",
+	"Aisha", "Ravi", "Chloe", "Hector", "Yasmin",
+	"Boris", "Luna", "Anastasia", "Kenji", "Freya"
+]
 
-func _init(ip , port ,hosts = false ) -> void:
+var _peers_in_list := {}
+var _is_connected := false
+var nam =""
 
-	if !ip.is_valid_ip_address():
-		
-		var urlRegex = RegEx.new()
-		var compile_result = urlRegex.compile('^(ftp|http|https)://[^ "]+$')
-		if compile_result != OK:
-			print("Error al compilar el patrón RegEx: ", compile_result)
-			ip = "localhost"
-
-		var result = urlRegex.search(ip)
-		if result:
-			print("URL válida:", result.get_string())
-		else:
-			print("URL inválida.")
-			ip = "localhost"
-		urlRegex.queue_free()
-	
-	host = hosts
-	server_address = "ws://" + ip + ":" + str(port)
-	
-	
+func _init(ip , port ,lobby_idd: String, host_tt: bool) -> void:
+	self.lobby_id = lobby_idd
+	hosts = host_tt
+	self.server_address = "ws://localhost:9080" #"ws://" + ip + ":" + str(port)
+	lobby_joined.connect(_id_connected)
+	connection_timeout.connect(_off_time)
+	lobby_joined.connect(_lobby_join)
 	connected.connect(_connected)
-	String(ip)
 	offer_received.connect(_offer_received)
 	answer_received.connect(_answer_received)
 	candidate_received.connect(_candidate_received)
-
+	prints(hosts ," hosts " ,lobby_id , "lobby" )
+	#multiplayer.peer_connected.connect(_id_peer_connected)
+	#multiplayer.peer_disconnected.connect(_id_peer_disconnected)
 	peer_connected.connect(_peer_connected)
 	peer_disconnected.connect(_peer_disconnected)
 
+func _ready() -> void:
+	randomize()
+	nam = names.pick_random()
+	if lobby_id == "":
+		prints("error de lobby " , lobby_id)
+		lobby_id = "webrtc_godot_4.4.dev3"
+	if hosts:
+		prints(lobby_id)
+		start(lobby_id, hosts)
+	else:
+		start(lobby_id, hosts)
+		pass
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("txt"):
+		send_text("texthola")
 
 func _connected(id: int, use_mesh := true):
 	if use_mesh:
@@ -89,12 +103,18 @@ func _offer_created(type, data, id):
 
 
 func _peer_connected(id):
+	prints("se conecto : " , id)
 	_create_peer(id)
+	if id == multiplayer.get_unique_id():
+		return
+	rpc_id(id, "request_name")
 
 
 func _peer_disconnected(id):
 	if rtc_mp.has_peer(id): rtc_mp.remove_peer(id)
-
+	if not _peers_in_list.has(id):
+		return
+	_peers_in_list.erase(id)
 
 func _offer_received(id, offer):
 	if rtc_mp.has_peer(id):
@@ -109,3 +129,58 @@ func _answer_received(id, answer):
 func _candidate_received(id, mid, index, sdp):
 	if rtc_mp.has_peer(id):
 		rtc_mp.get_peer(id).connection.add_ice_candidate(mid, index, sdp)
+
+
+func _send_msg(type: int, id: int, data:="") -> int:
+	return ws.send_text(JSON.stringify({
+		"type": type,
+		"id": id,
+		"data": data,
+		"lobby_id": lobby_id
+	}))
+func _off_time():
+	prints("fuera tiempo")
+
+func _lobby_join(lobby):
+	prints(lobby , "es el lobby ")
+
+
+
+@rpc("any_peer", "call_local")
+func send_text(text):
+	prints("mensaje de" , text)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func request_name() -> void:
+	rpc_id(multiplayer.get_remote_sender_id(), "set_nickname",nam)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func set_nickname(nickname: String) -> void:
+	var peer = multiplayer.get_remote_sender_id()
+	if peer in _peers_in_list:
+		return
+
+	_peers_in_list[peer] = nickname
+	#%PlayerList.add_item(nickname)
+
+
+
+func _id_connected(lobby: String) -> void:
+	prints(lobby)
+
+	_is_connected = true
+
+
+func _id_peer_connected(id) -> void:
+	if id == multiplayer.get_unique_id():
+		return
+	rpc_id(id, "request_name")
+	prints("request_name")
+
+
+func _id_peer_disconnected(id) -> void:
+	if not _peers_in_list.has(id):
+		return
+	_peers_in_list.erase(id)

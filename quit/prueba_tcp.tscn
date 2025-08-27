@@ -1,0 +1,116 @@
+[gd_scene load_steps=2 format=3 uid="uid://duscehrsom5qv"]
+
+[ext_resource type="Script" uid="uid://cxr3ualqcimd3" path="res://quit/prueba_tcp.gd" id="1_apuch"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_apuch")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -114.0
+offset_top = -153.0
+offset_right = 1277.0
+offset_bottom = 772.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.576471, 0.756863, 0.756863, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 407.0
+offset_top = 190.0
+offset_right = -429.0
+offset_bottom = -520.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.17, 1.07)
+horizontal_scroll_mode = 3
+
+[node name="plano" type="VBoxContainer" parent="Control/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Control/ScrollContainer/plano"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 3.37
+text = "f
+
+"
+justification_flags = 0
+
+[node name="Button" type="Button" parent="."]
+offset_left = 20.0
+offset_top = 94.0
+offset_right = 66.0
+offset_bottom = 125.0
+text = "send"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 19.0
+offset_top = 4.0
+offset_right = 179.0
+offset_bottom = 27.0
+text = "Small improvements"
+
+[node name="only_client" type="Button" parent="."]
+offset_left = 169.0
+offset_top = 95.0
+offset_right = 264.0
+offset_bottom = 126.0
+text = "send_client"
+
+[node name="only_server" type="Button" parent="."]
+offset_left = 168.0
+offset_top = 57.0
+offset_right = 269.0
+offset_bottom = 88.0
+text = "send_server"
+
+[node name="quit" type="Button" parent="."]
+offset_left = 192.0
+offset_top = 160.0
+offset_right = 231.0
+offset_bottom = 191.0
+text = "quit"
+
+[node name="crea_srver" type="Button" parent="."]
+offset_left = 20.0
+offset_top = 140.0
+offset_right = 118.0
+offset_bottom = 171.0
+text = "new server "
+
+[node name="crea_client" type="Button" parent="."]
+offset_left = 10.0
+offset_top = 194.0
+offset_right = 100.0
+offset_bottom = 225.0
+text = "new_client"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="only_client" to="." method="_on_only_client_pressed"]
+[connection signal="pressed" from="only_server" to="." method="_on_only_server_pressed"]
+[connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="crea_srver" to="." method="_on_crea_srver_pressed"]
+[connection signal="pressed" from="crea_client" to="." method="_on_crea_client_pressed"]
