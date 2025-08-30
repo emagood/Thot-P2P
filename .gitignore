@@ -8,3 +8,5 @@
 core/udp_manager.gd
 
 /addons/thot/libp2p-godot/lib/debug
+addons/thot/webrtc/lib/~libwebrtc_native.windows.template_debug.x86_64.dll~RF56ef0df.TMP
+/addons/thot/libp2p/lib/debug
