@@ -34,11 +34,11 @@
 
 2. **Inicia la aplicación en ambos dispositivos**:
     - Ejecuta el proyecto en dos dispositivos.
-    - Asegúrate de que ambos dispositivos estén en la misma red (para ENet y TCP) o tengan acceso a Internet (para WebSocket).
+    - Asegúrate de que ambos dispositivos estén en la misma red (para ENet y TCP) o tengan acceso a Internet (no tiene que ser lan noi la misma red).
 
 3. **Conexión y comunicación**:
-    - En uno de los dispositivos, selecciona "Host" para iniciar el servidor.
-    - En el otro dispositivo, introduce la dirección IP del host y selecciona "Connect".
+    - En uno de los dispositivos, selecciona "Host" para iniciar el servidor](no tiene que ser ).
+    - En el otro dispositivo, introduce la dirección IP del host y selecciona "Connect"(opcional segun configuracion).
     - Una vez conectados, puedes enviar mensajes entre los dispositivos utilizando la interfaz de usuario.
 
 ## Métodos de Conexión
