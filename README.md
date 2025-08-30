@@ -1,16 +1,11 @@
 # P2P Communication App with Godot 4.4
-##  Thot-P2P
 
-## Descripción
+## Thot-P2P## DescriptionThis application allows P2P (Peer-to-Peer) communication between devices using different implementation methods in Godot 4.4: ENet, WebSocket, and tcp, udp, libp2p, nostr. Its main goal is to connect devices and exchange information, data, or messages.
 
-Esta aplicación permite la comunicación P2P (Peer-to-Peer) entre dispositivos utilizando diferentes métodos de implementación en Godot 4.4: ENet,
-WebSocket, y TCP_Peer. Su objetivo principal es conectar dispositivos e intercambiar información, datos o mensajes.
-
-## Características
-
-- **Conexiones P2P**: Soporte para conexiones P2P utilizando ENet, WebSocket , webrtc, y TCP , UDP.
-- **Intercambio de Información**: Permite enviar y recibir mensajes entre dos dispositivos conectados.
-- **Implementación Modular**: Cada método de conexión está implementado como un módulo independiente, facilitando su uso y modificación.
+## Features
+- **P2P Connections**: Support for P2P connections using ENet, WebSocket, webrtc, and TCP, UDP, and in beta libp2p, torrent, nostr.
+- **Information Exchange**: Allows sending and receiving messages between two connected devices.
+- **Modular Implementation**: Each connection method is implemented as an independent module, making it easy to use and modify.
 
 ## Requisitos
 
