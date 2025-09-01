@@ -39,6 +39,7 @@ folder_colors={
 "res://addons/thot/example/example FPS/": "orange",
 "res://class/": "red",
 "res://menu/": "teal",
+"res://quit/": "blue",
 "res://red/": "orange",
 "res://screenshots/": "green",
 "res://thot/": "red"

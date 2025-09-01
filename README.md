@@ -16,30 +16,30 @@
 ## Instalación
 
 1. **Clona el repositorio**:
-    ```sh
-    git clone https://github.com/emagood/Thot-P2P.git
-    cd Thot-P2P
-    ```
+	```sh
+	git clone https://github.com/emagood/Thot-P2P.git
+	cd Thot-P2P
+	```
 
 2. **Abre el proyecto en Godot**:
-    - Inicia Godot Engine.
-    - Selecciona "Import" y navega hasta la carpeta del proyecto.
-    - Selecciona el archivo `project.godot`.
+	- Inicia Godot Engine.
+	- Selecciona "Import" y navega hasta la carpeta del proyecto.
+	- Selecciona el archivo `project.godot`.
 
 ## Uso
 
 1. **Selecciona el método de conexión**:
-    - Dentro de Godot, abre la escena principal.
-    - En el inspector, selecciona el método de conexión deseado (ENet, WebSocket, TCP).
+	- Dentro de Godot, abre la escena principal.
+	- En el inspector, selecciona el método de conexión deseado (ENet, WebSocket, TCP).
 
 2. **Inicia la aplicación en ambos dispositivos**:
-    - Ejecuta el proyecto en dos dispositivos.
-    - Asegúrate de que ambos dispositivos estén en la misma red (para ENet y TCP) o tengan acceso a Internet (para WebSocket).
+	- Ejecuta el proyecto en dos dispositivos.
+	- Asegúrate de que ambos dispositivos estén en la misma red (para ENet y TCP) o tengan acceso a Internet (para WebSocket).
 
 3. **Conexión y comunicación**:
-    - En uno de los dispositivos, selecciona "Host" para iniciar el servidor.
-    - En el otro dispositivo, introduce la dirección IP del host y selecciona "Connect".
-    - Una vez conectados, puedes enviar mensajes entre los dispositivos utilizando la interfaz de usuario.
+	- En uno de los dispositivos, selecciona "Host" para iniciar el servidor.
+	- En el otro dispositivo, introduce la dirección IP del host y selecciona "Connect".
+	- Una vez conectados, puedes enviar mensajes entre los dispositivos utilizando la interfaz de usuario.
 
 ## Métodos de Conexión
 
@@ -81,6 +81,3 @@ TCP_Peer utiliza el protocolo TCP estándar para la comunicación. Es confiable 
 ## Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo `LICENSE` para obtener más detalles.
-
-
-
