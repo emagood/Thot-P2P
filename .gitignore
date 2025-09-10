@@ -12,3 +12,4 @@ addons/thot/webrtc/lib/~libwebrtc_native.windows.template_debug.x86_64.dll~RF56e
 /addons/thot/libp2p/lib/debug
 /quit
 addons/thot/webrtc/lib/~libwebrtc_native.windows.template_debug.x86_64.dll
+/addons/libp2p/lib/debug

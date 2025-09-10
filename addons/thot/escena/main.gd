@@ -64,6 +64,7 @@ func _connected(lobby: String) -> void:
 
 
 func _peer_connected(id) -> void:
+	prints("se conecto")
 	if id == multiplayer.get_unique_id():
 		return
 	rpc_id(id, "request_name")
@@ -125,6 +126,7 @@ func send_text(text):
 
 @rpc("any_peer", "call_remote", "reliable")
 func request_name() -> void:
+	prints("mi nombre " , %Nickname.text )
 	rpc_id(multiplayer.get_remote_sender_id(), "set_nickname", %Nickname.text)
 
 

@@ -20,7 +20,7 @@ func add_socket(format, dir , n_name):
 
 
 func _on_server_pressed() -> void:
-	var data_exten = load("res://server_list.tscn").instantiate()
+	var data_exten = load("res://addons/thot/example/server_list.tscn").instantiate()
 	data_exten.ip = $HBoxContainer/ip_ws_.text
 	data_exten.port = port
 	data_exten.type = $LineEdit.text
@@ -33,7 +33,7 @@ func _on_server_pressed() -> void:
 
 
 func _on_cliente_pressed() -> void:
-	var data_exten = load("res://server_list.tscn").instantiate()
+	var data_exten = load("res://addons/thot/example/server_list.tscn").instantiate()
 	data_exten.ip = $HBoxContainer/ip_ws_.text
 	data_exten.port = port
 	data_exten.type = $LineEdit.text

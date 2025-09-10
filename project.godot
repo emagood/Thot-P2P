@@ -37,9 +37,8 @@ enabled=PackedStringArray("res://addons/thot/plugin.cfg")
 folder_colors={
 "res://addons/": "pink",
 "res://addons/thot/example/example FPS/": "orange",
+"res://addons/thot/menu/": "pink",
 "res://class/": "red",
-"res://menu/": "teal",
-"res://quit/": "blue",
 "res://red/": "orange",
 "res://screenshots/": "green",
 "res://thot/": "red"

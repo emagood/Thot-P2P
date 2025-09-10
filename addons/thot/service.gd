@@ -144,10 +144,8 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 	if type not in ConnectionType.values():
 		print("Tipo no válido para un socket: ", type)
 		return false
-
 	if type not in clients:
 		clients[type] = []
-
 	var client_info = {"ip": ip, "port": port}
 
 	# Verificar si el cliente ya está registrado
@@ -168,24 +166,22 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 			client = WebClient.new(ip, port)
 		ConnectionType.WEBRTC:
 
-			var runner_scene := preload("res://addons/thot/escena/main.gd")
-			var runner := runner_scene.new()
+			var runner_scene := preload("res://addons/thot/escena/main.tscn")
+			var runner = runner_scene.instantiate()
+			runner._join()
 			#var current_scene := get_tree().get_current_scene()
 			#if current_scene == null:
 				#push_error("No hay escena activa para ejecutar UPNP")
 			prints("runer run ")
-			runner.name = "webrtcmain"
-			runner.lobby = lobby
-			runner.hotok = false
-			node.call_deferred("add_child", runner)
+
+			#runner.hotok = false
+			node.add_child(runner)
 			
 			client = runner
-
 			#client = webrtc.new("*", port, lobby, false)
 			prints("desde cliente webr : ",  lobby)
 		ConnectionType.ENET:
 			client = Eclient.new(ip, port)
-			
 		var cliente_type:
 			prints("no existe ese protocolo " , cliente_type)
 
@@ -354,9 +350,4 @@ func is_upnp_port_open(port: int) -> bool:
 
 
 func _exit_tree():
-	
 	thread.wait_to_finish()
-
-
-func _off_time():
-	prints("fuera tiempo")
