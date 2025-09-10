@@ -7,7 +7,8 @@ const ConnectionType = {
 	TCP = "tcp",
 	WEBSOCKET = "webs",
 	WEBRTC = "webr",
-	ENET = "enet"
+	ENET = "enet",
+	IROH = "iroh"
 }
 
 # Diccionarios para registrar servidores y clientes por tipo de conexión
@@ -76,6 +77,14 @@ func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4
 			server = NetworkServer.new("*", port)
 		ConnectionType.WEBSOCKET:
 			server = WebServer.new("*", port)
+			
+		ConnectionType.IROH:
+			server = IrohServer.start()
+			multiplayer.multiplayer_peer = server
+		
+			var connection_string: String = multiplayer.multiplayer_peer.connection_string()
+			lobby =  connection_string
+			await prints(server.connection_string())
 		ConnectionType.WEBRTC:
 			
 		
@@ -103,7 +112,8 @@ func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4
 	if server == null:
 		print("Error: No se pudo instanciar el servidor de tipo", type)
 		return false
-	if !type == "webr":
+	if  type != "webr" and type != "iroh":
+		prints(type)
 		server.name = "server"+str(lobby)
 		node.add_child(server)
 
@@ -164,6 +174,11 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 			client = NetworkClient.new(ip, port)
 		ConnectionType.WEBSOCKET:
 			client = WebClient.new(ip, port)
+			
+		ConnectionType.IROH:
+			client = IrohClient.connect(lobby)
+			multiplayer.multiplayer_peer = client
+			
 		ConnectionType.WEBRTC:
 
 			var runner_scene := preload("res://addons/thot/tools/escena/main.tscn")
@@ -189,7 +204,7 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 	if client == null:
 		print("Error: No se pudo instanciar el cliente de tipo ", type)
 		return false
-	if !type == "webr":
+	if !type == "webr" and !type == "iroh":
 		node.add_child(client)
 
 
@@ -248,7 +263,7 @@ func get_client_node() -> Dictionary:
 
 
 
-func client_thot(type , port )-> Node:
+func client_thot(type , port )-> MultiplayerPeer:
 	var dic = get_client_node()
 	prints("mi dic " , dic)
 	var nodo = null
@@ -258,15 +273,27 @@ func client_thot(type , port )-> Node:
 			break
 	if nodo == null:
 		return null
-	return nodo
+	if type == "iroh":
+		var multiplayer_api : MultiplayerAPI
+		get_tree().set_multiplayer(multiplayer, self.get_path())
+		multiplayer_api = MultiplayerAPI.create_default_interface()
+		
+		return nodo
+	return nodo.peer
 	
 
-func server_thot(type , port )-> Node:
+func server_thot(type , port )-> MultiplayerPeer:
 	var dic = get_servers()
 	var nodo = dic[type][port]
 	if nodo == null:
 		return null
-	return nodo
+	if type == "iroh":
+		var multiplayer_api : MultiplayerAPI
+		get_tree().set_multiplayer(multiplayer, self.get_path())
+		multiplayer_api = MultiplayerAPI.create_default_interface()
+
+		return nodo
+	return nodo.peer
 #endregion
 
 
