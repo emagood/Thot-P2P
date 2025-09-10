@@ -61,17 +61,15 @@ func start(lobby: String, h: bool) -> void:
 	ws.connect_to_url(server_address)
 
 	# Timeout
-	#await get_tree().create_timer(3.0).timeout
 	wait(3.0)
 	if ws.get_ready_state() == WebSocketPeer.STATE_CONNECTING:
 		connection_timeout.emit()
 		close()
-		
+
 func wait(seconds: float) -> void:
 	var target := Time.get_unix_time_from_system() + seconds
 	while Time.get_unix_time_from_system() < target:
 		await Engine.get_main_loop().process_frame
-
 
 func stop() -> void:
 	multiplayer.multiplayer_peer = null

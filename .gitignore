@@ -6,7 +6,8 @@
 /addons/command-terminal
 /addons/script-ide
 core/udp_manager.gd
-
+/addons/libp2p
+/addons/godot_iroh
 /addons/thot/libp2p-godot/lib/debug
 addons/thot/webrtc/lib/~libwebrtc_native.windows.template_debug.x86_64.dll~RF56ef0df.TMP
 /addons/thot/libp2p/lib/debug
@@ -15,5 +16,10 @@ addons/thot/webrtc/lib/~libwebrtc_native.windows.template_debug.x86_64.dll
 /addons/libp2p/lib/debug
 addons/godot_iroh/~godot_iroh.dll~RF2b953.TMP
 addons/thot/Nuevo documento de texto.txt
-addons/thot/Nuevo documento de texto.txt
+
 /addons/webrtc
+/addons/lib
+/addons/escena
+thot_p2p.pck
+*.dll
+*.pck

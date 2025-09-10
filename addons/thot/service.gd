@@ -79,7 +79,7 @@ func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4
 		ConnectionType.WEBRTC:
 			
 		
-			var data_exten = load("res://addons/thot/escena/main.tscn").instantiate()
+			var data_exten = load("res://addons/thot/tools/escena/main.tscn").instantiate()
 			data_exten.lobby = lobby
 	
 		
@@ -166,7 +166,7 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 			client = WebClient.new(ip, port)
 		ConnectionType.WEBRTC:
 
-			var runner_scene := preload("res://addons/thot/escena/main.tscn")
+			var runner_scene := preload("res://addons/thot/tools/escena/main.tscn")
 			var runner = runner_scene.instantiate()
 			runner._join()
 			#var current_scene := get_tree().get_current_scene()
