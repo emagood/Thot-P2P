@@ -4,3 +4,6 @@
 [submodule "addons/thot/libp2p-godot"]
 	path = addons/thot/libp2p-godot
 	url = https://github.com/emagood/rust-godot-libp2p.git
+[submodule "addons/thot/webrtc-godot"]
+	path = addons/thot/webrtc-godot
+	url = https://github.com/godotengine/webrtc-native.git
