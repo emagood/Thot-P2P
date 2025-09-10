@@ -2,10 +2,11 @@
 extends Control
 class_name WebClient
 
-@export var port: int = 8080
+@export var port: int = 9999
 @export var ip: String = "localhost"
 
 var peer = WebSocketMultiplayerPeer.new()
+var multiplayer_api : MultiplayerAPI
 
 func _init(ip: String = "localhost", port: int = 8080):
 	if !ip.is_valid_ip_address():
@@ -22,21 +23,28 @@ func _init(ip: String = "localhost", port: int = 8080):
 		else:
 			print("URL inválida.")
 			ip = "localhost"
-		urlRegex.queue_free()
+
 	
 	self.port = port
 	self.ip = ip
 	
 
 func _ready():
-	get_tree().set_multiplayer(MultiplayerAPI.create_default_interface(), self.get_path())
-	get_tree().set_multiplayer(multiplayer, self.get_path())
+	#get_tree().set_multiplayer(MultiplayerAPI.create_default_interface(), self.get_path())
+	#get_tree().set_multiplayer(multiplayer, self.get_path())
 	#get_tree().set_multiplayer(multiplayer)
-	multiplayer.multiplayer_peer = null
+	
+	#get_tree().set_multiplayer(multiplayer_api, self.get_path())
+	#multiplayer.multiplayer_peer = peer
+	#
+	get_tree().set_multiplayer(multiplayer, self.get_path())
+	multiplayer_api = MultiplayerAPI.create_default_interface()
+	multiplayer.multiplayer_peer = peer
+	
 	var err = peer.create_client("ws://" + ip + ":" + str(port))
 	if err != OK:
 		print("Failed to create client: %s" % err)
-	multiplayer.multiplayer_peer = peer
+	
 
 	multiplayer.peer_connected.connect(self._peer_connected)
 	multiplayer.peer_disconnected.connect(self._peer_disconnected)

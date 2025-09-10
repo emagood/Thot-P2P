@@ -8,6 +8,7 @@ extends Node
 
 const Player = preload("res://addons/thot/example/example FPS/player.tscn")
 const PORT = 9999
+var type = "enet"
 #var enet_peer = ENetMultiplayerPeer.new()
 
 func _unhandled_input(event):
@@ -15,26 +16,20 @@ func _unhandled_input(event):
 		get_tree().quit()
 
 func _on_host_button_pressed():
-	DisplayServer.window_set_title("fps test thot-p2p servidor : SERVIDOR")
+	DisplayServer.window_set_title("fps test thot-p2p servidor : SERVIDOR MODO :" + str(type))
 
 	main_menu.hide()
 	hud.show()
 
-	Thot.add_server(self ,"enet", 9999, "lobby")
-	#enet_peer.create_server(PORT)
+	Thot.add_server(self ,type, 9999, "lobby")
 	prints(Thot.get_servers())
-	var serverlobby := Node.new()  # o una instancia real que ya tengas
+	
 	
 
-	prints(Thot.get_servers())
-	var dic = Thot.get_servers()
-	var nodo = dic["enet"][9999]
-	prints(nodo)
-	self.multiplayer.multiplayer_peer = nodo.server_custom
+	var peer = Thot.server_thot(type,9999)
+	self.multiplayer.multiplayer_peer = peer.peer
 
 
-
-	#multiplayer.multiplayer_peer = enet_peer
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 	
@@ -48,23 +43,14 @@ func _ready() -> void:
 func _on_join_button_pressed():
 	main_menu.hide()
 	hud.show()
-	DisplayServer.window_set_title("fps test thot-p2p cliente : CLIENTNE")
+	DisplayServer.window_set_title("fps test thot-p2p cliente : CLIENTE MODO :" + str(type))
 	
 
-	Thot.add_client(self ,"enet", address_entry.text,9999,"lobbyS")
+	Thot.add_client(self ,type, address_entry.text,9999,"lobbyS")
 	
-	var dic = Thot.get_client_node()
-	prints("mi dic " , dic)
-	var nodo = null
-	for entry in dic["enet"]:
-		if entry.has("port") and entry["port"] == 9999:
-			nodo = entry["node"]
-			break
-	multiplayer.multiplayer_peer = nodo.client_custom
+	var peer = Thot.client_thot(type , 9999 )
+	multiplayer.multiplayer_peer = peer.peer
 
-
-	#enet_peer.create_client(address_entry.text, PORT)
-	#multiplayer.multiplayer_peer = enet_peer
 
 func add_player(peer_id):
 	var player = Player.instantiate()
@@ -103,3 +89,13 @@ func upnp_setup():
 		"UPNP Port Mapping Failed! Error %s" % map_result)
 	
 	print("Success! Join Address: %s" % upnp.query_external_address())
+
+
+func _on_enet___websocket_pressed() -> void:
+	prints("cambio")
+	if type == "webs":
+		type = "enet"
+	else:
+		type = "webs"
+	$"CanvasLayer/MainMenu/MarginContainer/VBoxContainer/enet _ websocket".text = type
+	pass # Replace with function body.

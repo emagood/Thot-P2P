@@ -38,7 +38,7 @@ environment = SubResource("Environment_6knbf")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MainMenu" type="PanelContainer" parent="CanvasLayer"]
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 268.0
@@ -72,6 +72,11 @@ text = "Host"
 [node name="JoinButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Join"
+
+[node name="enet _ websocket" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+text = "enet / websocket"
 
 [node name="AddressEntry" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -131,4 +136,5 @@ spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/enet _ websocket" to="." method="_on_enet___websocket_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

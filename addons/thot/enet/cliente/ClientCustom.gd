@@ -11,7 +11,7 @@ extends Node
 class_name Eclient
 
 @onready var send_msjs = get_tree().get_first_node_in_group("msj")
-var client_custom = ENetMultiplayerPeer.new()
+var peer = ENetMultiplayerPeer.new()
 var multiplayer_api : MultiplayerAPI
 var type = "enet"
 @export var rpc_true = false
@@ -35,12 +35,12 @@ func _ready():
 	add_to_group("cliente")
 
 
-	client_custom.create_client(address, port)
+	peer.create_client(address, port)
 	multiplayer_api = MultiplayerAPI.create_default_interface()
 	get_tree().set_multiplayer(multiplayer_api, self.get_path()) 
 	
 	
-	#multiplayer_api.multiplayer_peer = client_custom
+	#multiplayer_api.multiplayer_peer = peer
 	
 	multiplayer_api.connected_to_server.connect(_on_connection_succeeded)
 	multiplayer_api.connection_failed.connect(_on_connection_failed)
@@ -167,7 +167,7 @@ func _input(event: InputEvent) -> void:
 	pass
 
 
-	##client_custom.create_client(address, port)#
+	##peer.create_client(address, port)#
 	#if Input.is_key_pressed(KEY_N) and rpc_true == false:
 		##cliente_rcp(address,port)
 		#prints("crear")
@@ -183,9 +183,9 @@ func _input(event: InputEvent) -> void:
 		#return
 	#if rpc_true == true:
 		#return
-	#client_custom.create_client(address, port)
+	#peer.create_client(address, port)
 	#get_tree().set_multiplayer(multiplayer_api, self.get_path()) 
-	#multiplayer_api.multiplayer_peer = client_custom
+	#multiplayer_api.multiplayer_peer = peer
 	#multiplayer_api.connected_to_server.connect(_on_connection_succeeded)
 	#multiplayer_api.server_disconnected.connect(_on_connection_failed)
 	#print("Custom ClientUnique ID: {0}".format([multiplayer_api.get_unique_id()]))

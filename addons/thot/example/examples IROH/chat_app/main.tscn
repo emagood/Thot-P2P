@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bypi2idfwf68b"]
 
-[ext_resource type="Script" uid="uid://cunh7tw7tvqtp" path="res://connection_menu.gd" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://dxlhc8jc65lg1" path="res://chat_menu.gd" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://cunh7tw7tvqtp" path="res://addons/thot/example/examples IROH/chat_app/connection_menu.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://dxlhc8jc65lg1" path="res://addons/thot/example/examples IROH/chat_app/chat_menu.gd" id="2_h2yge"]
 
 [node name="ChatExample" type="Control"]
 layout_mode = 3

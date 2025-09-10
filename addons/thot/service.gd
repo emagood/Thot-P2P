@@ -246,6 +246,27 @@ func get_clients() -> Dictionary:
 func get_client_node() -> Dictionary:
 	return client_nodes
 
+
+
+func client_thot(type , port )-> Node:
+	var dic = get_client_node()
+	prints("mi dic " , dic)
+	var nodo = null
+	for entry in dic[type]:
+		if entry.has("port") and entry["port"] == port:
+			nodo = entry["node"]
+			break
+	if nodo == null:
+		return null
+	return nodo
+	
+
+func server_thot(type , port )-> Node:
+	var dic = get_servers()
+	var nodo = dic[type][port]
+	if nodo == null:
+		return null
+	return nodo
 #endregion
 
 

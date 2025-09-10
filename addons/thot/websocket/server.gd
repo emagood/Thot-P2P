@@ -20,10 +20,10 @@ class_name WebServer
 #@onready var _game = $Panel/VBoxContainer/Game
 
 var peer = WebSocketMultiplayerPeer.new()
-
+var multiplayer_api : MultiplayerAPI
 
 func _init(ip,port):
-	self.port = port
+	self.port = 9999
 	self.ip = ip
 	#thread = Thread.new()
 	#thread.start(_upnp_setup.bind(port))
@@ -51,8 +51,9 @@ func _ready():
 	
 	
 	get_tree().set_multiplayer(multiplayer, self.get_path())
-	multiplayer.multiplayer_peer = null
+	#multiplayer.multiplayer_peer = null
 	peer.create_server(port,"*")
+	multiplayer_api = MultiplayerAPI.create_default_interface()
 	multiplayer.multiplayer_peer = peer
 	
 	
@@ -132,6 +133,7 @@ func _on_Connect_pressed():
 	multiplayer.multiplayer_peer = null
 	#peer.create_client("ws://" + _host_edit.text + ":" + str(port))
 	multiplayer.multiplayer_peer = peer
+	prints("se quito peer server")
 	#start_game()
 
 
