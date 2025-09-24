@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://og24s8x31jlk"]
+[gd_scene load_steps=6 format=3 uid="uid://og24s8x31jlk"]
 
-[ext_resource type="Script" uid="uid://516uxfxu7emw" path="res://addons/escena/main.gd" id="1_pamxo"]
-[ext_resource type="Script" uid="uid://dojdtb7ep4x6p" path="res://addons/escena/components/client.gd" id="2_tbxix"]
-[ext_resource type="Script" uid="uid://bkburps1uecmj" path="res://addons/escena/components/voice.gd" id="3_kx4lw"]
+[ext_resource type="Script" uid="uid://87sjjstmbsfv" path="res://addons/thot/scenes/main.gd" id="1_pamxo"]
+[ext_resource type="Script" uid="uid://nt18fpi62n2" path="res://addons/thot/scenes/components/client.gd" id="2_tbxix"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c71fa"]
 content_margin_left = 5.0
@@ -237,8 +236,8 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 13
 theme_override_font_sizes/bold_font_size = 13
-theme_override_font_sizes/italics_font_size = 13
 theme_override_font_sizes/bold_italics_font_size = 13
+theme_override_font_sizes/italics_font_size = 13
 theme_override_font_sizes/mono_font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_h1bda")
 bbcode_enabled = true
@@ -276,11 +275,3 @@ text = "Press SPACE to speak"
 [node name="Client" type="Node" parent="."]
 script = ExtResource("2_tbxix")
 server_address = "ws://signaling.microtaur.com:9080"
-
-[node name="Voice" type="Control" parent="."]
-anchors_preset = 0
-script = ExtResource("3_kx4lw")
-
-[node name="Recorder" type="AudioStreamPlayer" parent="Voice"]
-autoplay = true
-bus = &"Record"

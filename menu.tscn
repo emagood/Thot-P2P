@@ -1,8 +1,145 @@
-[gd_scene load_steps=7 format=3 uid="uid://og24s8x31jlk"]
+[gd_scene load_steps=7 format=3 uid="uid://75t4xa7bl6us"]
 
-[ext_resource type="Script" uid="uid://516uxfxu7emw" path="res://addons/escena/main.gd" id="1_pamxo"]
-[ext_resource type="Script" uid="uid://dojdtb7ep4x6p" path="res://addons/escena/components/client.gd" id="2_tbxix"]
-[ext_resource type="Script" uid="uid://bkburps1uecmj" path="res://addons/escena/components/voice.gd" id="3_kx4lw"]
+[sub_resource type="GDScript" id="GDScript_vsb4k"]
+script/source = "extends Control
+
+const names = [
+	\"John\", \"Paul\", \"Gaylord\", \"Adalbert\", \"Oli\",
+	\"Elena\", \"Marta\", \"Leo\", \"Nina\", \"Samuel\",
+	\"Aisha\", \"Ravi\", \"Chloe\", \"Hector\", \"Yasmin\",
+	\"Boris\", \"Luna\", \"Anastasia\", \"Kenji\", \"Freya\"
+]
+
+var _peers_in_list := {}
+var _is_connected := false
+var lobby = \"emanuelbertey458548\"
+var is_server = false
+func _ready():
+	randomize()
+	
+
+	%Host.pressed.connect(_host)
+	%Join.pressed.connect(_join)
+	%Quit.pressed.connect(_quit)
+	%Start.pressed.connect(_seal)
+
+	$Client.lobby_joined.connect(_connected)
+	$Client.connection_timeout.connect(_timeout)
+	$Client.multiplayer.peer_connected.connect(_peer_connected)
+	$Client.multiplayer.peer_disconnected.connect(_peer_disconnected)
+	$Client.lobby_sealed.connect(_sealed)
+	$Client.lobby_already_exists.connect(_lobby_exists)
+
+	%Nickname.text = names.pick_random()
+	%ChatInput.text_submitted.connect(_send_text)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(\"push_to_talk\"):
+		%Lobby/VBoxContainer/SpeakIndicator.text = \"SPEAKING\"
+		$Voice.start_recording()
+	if event.is_action_released(\"push_to_talk\"):
+		%Lobby/VBoxContainer/SpeakIndicator.text = \"Press SPACE to speak\"
+		$Voice.stop_recording()
+
+
+func _host() -> void:
+	$Client.start(%HostLobby.text, true)
+	%Host.text = \" Creating... \"
+	%Host.disabled = true
+	%HostLobby.editable = false
+
+
+func _join() -> void:
+	$Client.start(%JoinLobby.text, false)
+
+
+func _connected(lobby: String) -> void:
+	%ConnectionPanel.hide()
+	%LobbyName.text = lobby
+	%Lobby.show()
+
+	%Start.visible = $Client.host
+	%PlayerList.add_item(%Nickname.text)
+
+	_is_connected = true
+
+
+func _peer_connected(id) -> void:
+	if id == multiplayer.get_unique_id():
+		return
+	rpc_id(id, \"request_name\")
+
+
+func _peer_disconnected(id) -> void:
+	if not _peers_in_list.has(id):
+		return
+
+	var i = %PlayerList.get_item_count() - 1
+	while i > 0:
+		if %PlayerList.get_item_text(i) == _peers_in_list[id]:
+			%PlayerList.remove_item(i)
+			break
+		else:
+			i -= 1
+
+	_peers_in_list.erase(id)
+
+
+func _timeout() -> void:
+	%Host.text = \" Host \"
+	%Host.disabled = false
+	%HostLobby.editable = true
+	prints(\"timeout\")
+
+
+func _quit() -> void:
+	_peers_in_list.clear()
+
+	$Client.stop()
+	%Lobby.hide()
+	%ConnectionPanel.show()
+	%PlayerList.clear()
+	%ChatBox.clear()
+	_timeout()
+
+
+func _seal() -> void:
+	$Client.seal_lobby()
+
+
+func _sealed() -> void:
+	%ChatBox.append_text(\"[color=#dd0000]The lobby has been sealed.[/color]\\n\")
+
+func _lobby_exists() -> void:
+	%ErrorBox.popup()
+	_quit()
+
+
+func _send_text(text: String) -> void:
+	send_text.rpc(\"[b]%s[/b]: %s\\n\" % [%Nickname.text, text])
+	%ChatInput.clear()
+
+
+@rpc(\"any_peer\", \"call_local\")
+func send_text(text):
+	%ChatBox.append_text(text)
+
+
+@rpc(\"any_peer\", \"call_remote\", \"reliable\")
+func request_name() -> void:
+	rpc_id(multiplayer.get_remote_sender_id(), \"set_nickname\", %Nickname.text)
+
+
+@rpc(\"any_peer\", \"call_local\", \"reliable\")
+func set_nickname(nickname: String) -> void:
+	var peer = multiplayer.get_remote_sender_id()
+	if peer in _peers_in_list:
+		return
+
+	_peers_in_list[peer] = nickname
+	%PlayerList.add_item(nickname)
+"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c71fa"]
 content_margin_left = 5.0
@@ -22,6 +159,175 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="GDScript" id="GDScript_lti8b"]
+script/source = "class_name Client2
+extends BaseClient
+
+
+func _init() -> void:
+	connected.connect(_connected)
+
+	offer_received.connect(_offer_received)
+	answer_received.connect(_answer_received)
+	candidate_received.connect(_candidate_received)
+
+	peer_connected.connect(_peer_connected)
+	peer_disconnected.connect(_peer_disconnected)
+
+
+func _connected(id: int, use_mesh := true):
+	if use_mesh:
+		rtc_mp.create_mesh(id)
+	elif id == 1:
+		rtc_mp.create_server()
+	else:
+		rtc_mp.create_client(id)
+
+	multiplayer.multiplayer_peer = rtc_mp
+
+
+func _create_peer(id):
+	var peer: WebRTCPeerConnection = WebRTCPeerConnection.new()
+	peer.initialize({
+		\"iceServers\": [ { \"urls\": [\"stun:stun.l.google.com:19302\"] } ]
+	})
+	peer.session_description_created.connect(_offer_created.bind(id))
+	peer.ice_candidate_created.connect(_new_ice_candidate.bind(id))
+	rtc_mp.add_peer(peer, id)
+	if id < rtc_mp.get_unique_id():
+		peer.create_offer()
+	return peer
+
+
+func _new_ice_candidate(mid_name, index_name, sdp_name, id):
+	send_candidate(id, mid_name, index_name, sdp_name)
+
+
+func _offer_created(type, data, id):
+	if not rtc_mp.has_peer(id):
+		return
+	rtc_mp.get_peer(id).connection.set_local_description(type, data)
+	if type == \"offer\": send_offer(id, data)
+	else: send_answer(id, data)
+
+
+func _peer_connected(id):
+	_create_peer(id)
+
+
+func _peer_disconnected(id):
+	if rtc_mp.has_peer(id): rtc_mp.remove_peer(id)
+
+
+func _offer_received(id, offer):
+	if rtc_mp.has_peer(id):
+		rtc_mp.get_peer(id).connection.set_remote_description(\"offer\", offer)
+
+
+func _answer_received(id, answer):
+	if rtc_mp.has_peer(id):
+		rtc_mp.get_peer(id).connection.set_remote_description(\"answer\", answer)
+
+
+func _candidate_received(id, mid, index, sdp):
+	if rtc_mp.has_peer(id):
+		rtc_mp.get_peer(id).connection.add_ice_candidate(mid, index, sdp)
+"
+
+[sub_resource type="GDScript" id="GDScript_ouk20"]
+script/source = "extends Node
+#
+#const BUFFER_SIZE := 480
+#
+#var active := false
+#var effect: AudioEffectCapture = null
+#var client: Client = null
+#
+#var audio_thread = Thread.new()
+#
+#var _player_pool := {}
+#var _encoder := Opus.new()
+#
+#func _ready():
+	#client = get_parent().get_node(\"Client\")
+	#_update_player_pool()
+#
+	#$Recorder.stream = AudioStreamMicrophone.new()
+	#$Recorder.play()
+#
+	#var idx = AudioServer.get_bus_index(\"Record\")
+	#effect = AudioServer.get_bus_effect(idx, 0)
+	#effect.buffer_length = 0.1
+	#effect.clear_buffer()
+#
+	#audio_thread.start(_audio_process, Thread.PRIORITY_HIGH)
+#
+#
+#func _audio_process():
+	#while true:
+		#if has_data() and active:
+			#var data = get_data()
+			#call_deferred(\"rpc\", \"play_data\", data)
+		#else:
+			#OS.delay_msec(10)
+#
+#
+#func _update_player_pool() -> void:
+	#for p in client.multiplayer.get_peers():
+		#if _player_pool.has(p):
+			#continue
+		#_player_pool[p] = _create_player()
+#
+#
+#func _create_player() -> Array:
+	#var p = AudioStreamPlayer.new()
+	#var g = AudioStreamGenerator.new()
+	#g.buffer_length = 0.1
+	#g.mix_rate = 48000
+	#p.stream = g
+	#add_child(p)
+	#p.play()
+	#var decoder = Opus.new()
+	#add_child(decoder)
+	#return [p, decoder]
+#
+#
+#func _get_generator(id: int) -> AudioStreamGeneratorPlayback:
+	#return _player_pool[id][0].get_stream_playback()
+#
+#
+#func _get_opus_instance(id: int) -> Opus:
+	#return _player_pool[id][1]
+#
+#
+#func start_recording() -> void:
+	#active = true
+#
+#
+#func stop_recording() -> void:
+	#active = false
+#
+#
+#func has_data() -> bool:
+	#return effect.can_get_buffer(BUFFER_SIZE)
+#
+#
+#func get_data() -> PackedFloat32Array:
+	#var data = effect.get_buffer(BUFFER_SIZE)
+	#return _encoder.encode(data)
+#
+#
+#func clear_data() -> void:
+	#effect.clear_buffer()
+#
+#
+#@rpc(\"any_peer\", \"call_remote\", \"reliable\")
+#func play_data(data: PackedFloat32Array) -> void:
+	#var id = client.multiplayer.get_remote_sender_id()
+	#_update_player_pool()
+	#_get_opus_instance(id).decode_and_play(_get_generator(id), data)
+"
+
 [node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -29,7 +335,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_pamxo")
+script = SubResource("GDScript_vsb4k")
 
 [node name="ConnectionPanel" type="Panel" parent="."]
 unique_name_in_owner = true
@@ -237,8 +543,8 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 13
 theme_override_font_sizes/bold_font_size = 13
-theme_override_font_sizes/italics_font_size = 13
 theme_override_font_sizes/bold_italics_font_size = 13
+theme_override_font_sizes/italics_font_size = 13
 theme_override_font_sizes/mono_font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_h1bda")
 bbcode_enabled = true
@@ -274,13 +580,12 @@ layout_mode = 2
 text = "Press SPACE to speak"
 
 [node name="Client" type="Node" parent="."]
-script = ExtResource("2_tbxix")
+script = SubResource("GDScript_lti8b")
 server_address = "ws://signaling.microtaur.com:9080"
 
 [node name="Voice" type="Control" parent="."]
 anchors_preset = 0
-script = ExtResource("3_kx4lw")
+script = SubResource("GDScript_ouk20")
 
 [node name="Recorder" type="AudioStreamPlayer" parent="Voice"]
 autoplay = true
-bus = &"Record"

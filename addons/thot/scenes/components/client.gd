@@ -1,7 +1,7 @@
 class_name Client
 extends BaseClient
 
-
+var peer: WebRTCPeerConnection = WebRTCPeerConnection.new()
 func _init() -> void:
 	connected.connect(_connected)
 
@@ -25,10 +25,26 @@ func _connected(id: int, use_mesh := true):
 
 
 func _create_peer(id):
-	var peer: WebRTCPeerConnection = WebRTCPeerConnection.new()
+	
 	peer.initialize({
-		"iceServers": [ { "urls": ["stun:stun.l.google.com:19302"] } ]
-	})
+	"iceServers": [
+		{ "urls": ["stun:stun.l.google.com:19302"] },
+		{ "urls": ["stun:stun1.l.google.com:19302"] },
+		{ "urls": ["stun:stun2.l.google.com:19302"] },
+		{ "urls": ["stun:stun3.l.google.com:19302"] },
+		{ "urls": ["stun:stun4.l.google.com:19302"] },
+		{ "urls": ["stun:stun.ekiga.net"] },
+		{ "urls": ["stun:stun.ideasip.com"] },
+		{ "urls": ["stun:stun.schlund.de"] },
+		{ "urls": ["stun:stun.stunprotocol.org:3478"] },
+		{ "urls": ["stun:stun.voiparound.com"] },
+		{ "urls": ["stun:stun.voipbuster.com"] },
+		{ "urls": ["stun:stun.voipstunt.com"] },
+		{ "urls": ["stun:stun.voxgratia.org"] },
+		{ "urls": ["stun:numb.viagenie.ca"] }
+	]
+})
+
 	peer.session_description_created.connect(_offer_created.bind(id))
 	peer.ice_candidate_created.connect(_new_ice_candidate.bind(id))
 	rtc_mp.add_peer(peer, id)

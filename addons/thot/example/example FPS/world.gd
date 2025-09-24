@@ -25,7 +25,7 @@ func _on_host_button_pressed():
 	prints(Thot.get_servers())
 	
 	
-
+	await get_tree().create_timer(3.0).timeout
 	var peer = Thot.server_thot(type,9999)
 	self.multiplayer.multiplayer_peer = peer
 
@@ -46,8 +46,10 @@ func _on_join_button_pressed():
 	DisplayServer.window_set_title("fps test thot-p2p cliente : CLIENTE MODO :" + str(type))
 	
 
-	Thot.add_client(self ,type, address_entry.text,9999,$CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressEntry.text)
+	Thot.add_client(self ,type, address_entry.text,9999,$CanvasLayer/MainMenu/MarginContainer/VBoxContainer/link_iroh.text)
 	prints($CanvasLayer/MainMenu/MarginContainer/VBoxContainer/link_iroh.text)
+	await get_tree().create_timer(4.0).timeout
+
 	var peer = Thot.client_thot(type , 9999 )
 	multiplayer.multiplayer_peer = peer
 
@@ -102,5 +104,12 @@ func _on_enet___websocket_pressed() -> void:
 
 
 func _on_iroh_enter_or_host_pressed() -> void:
-	type = "iroh"
+
+	
+	prints("cambio", type)
+	if type == "webr":
+		type = "iroh"
+	else:
+		type = "webr"
+	$"CanvasLayer/MainMenu/MarginContainer/VBoxContainer/iroh enter or host".text = type
 	pass # Replace with function body.

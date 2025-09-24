@@ -61,7 +61,7 @@ theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Main Menu"
+text = "puerto 9999  \"lobby\""
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -81,7 +81,7 @@ text = "enet / websocket"
 [node name="iroh enter or host" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 toggle_mode = true
-text = "enter iroh or host"
+text = "enter iroh or webr"
 
 [node name="AddressEntry" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -90,7 +90,8 @@ alignment = 1
 
 [node name="link_iroh" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
-placeholder_text = "Enter iroh tiket"
+text = "lobby"
+placeholder_text = "Enter iroh tiket or loby Webr"
 alignment = 1
 
 [node name="HUD" type="Control" parent="CanvasLayer"]

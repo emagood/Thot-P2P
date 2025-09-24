@@ -88,7 +88,7 @@ func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4
 		ConnectionType.WEBRTC:
 			
 		
-			var data_exten = load("res://addons/thot/tools/escena/main.tscn").instantiate()
+			var data_exten = load("res://addons/thot/scenes/main.tscn").instantiate()
 			data_exten.lobby = lobby
 	
 		
@@ -99,6 +99,7 @@ func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4
 					
 			server = data_exten
 			server._host()
+			server.visible = false
 			#server = webrtc.new("*", port ,lobby,true)
 			#
 			#server.connection_timeout.connect(_off_time)
@@ -181,18 +182,21 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 			
 		ConnectionType.WEBRTC:
 
-			var runner_scene := preload("res://addons/thot/tools/escena/main.tscn")
+			var runner_scene := preload("res://addons/thot/scenes/main.tscn")
 			var runner = runner_scene.instantiate()
-			runner._join()
+			runner.lobby = lobby
+			runner.is_server = false
 			#var current_scene := get_tree().get_current_scene()
 			#if current_scene == null:
 				#push_error("No hay escena activa para ejecutar UPNP")
 			prints("runer run ")
 
 			#runner.hotok = false
+			runner.visible = false
 			node.add_child(runner)
 			
 			client = runner
+			
 			#client = webrtc.new("*", port, lobby, false)
 			prints("desde cliente webr : ",  lobby)
 		ConnectionType.ENET:
@@ -277,8 +281,13 @@ func client_thot(type , port )-> MultiplayerPeer:
 		var multiplayer_api : MultiplayerAPI
 		get_tree().set_multiplayer(multiplayer, self.get_path())
 		multiplayer_api = MultiplayerAPI.create_default_interface()
-		
 		return nodo
+	if type == "webr":
+		var multiplayer_api : MultiplayerAPI
+		multiplayer_api = MultiplayerAPI.create_default_interface()
+		multiplayer.multiplayer_peer = nodo.client.rtc_mp
+		return nodo.client.rtc_mp
+		
 	return nodo.peer
 	
 
@@ -293,6 +302,8 @@ func server_thot(type , port )-> MultiplayerPeer:
 		multiplayer_api = MultiplayerAPI.create_default_interface()
 
 		return nodo
+	if type == "webr":
+		return nodo.client.rtc_mp
 	return nodo.peer
 #endregion
 

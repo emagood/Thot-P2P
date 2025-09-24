@@ -1,5 +1,5 @@
 extends Control
-
+#https://github.com/microtaur/godot4-p2p-voip
 const names = [
 	"John", "Paul", "Gaylord", "Adalbert", "Oli",
 	"Elena", "Marta", "Leo", "Nina", "Samuel",
@@ -9,28 +9,32 @@ const names = [
 
 var _peers_in_list := {}
 var _is_connected := false
-var lobby = "emanuelbertey458548"
+var lobby = "emabertey"
 var is_server = false
-#var client := Client.new()
+@onready var client: Client = $Client
+
 func _ready():
-	randomize()
 	
+	randomize()
 
 	%Host.pressed.connect(_host)
 	%Join.pressed.connect(_join)
 	%Quit.pressed.connect(_quit)
 	%Start.pressed.connect(_seal)
 
-	$Client.lobby_joined.connect(_connected)
-	$Client.connection_timeout.connect(_timeout)
-	$Client.multiplayer.peer_connected.connect(_peer_connected)
-	$Client.multiplayer.peer_disconnected.connect(_peer_disconnected)
-	$Client.lobby_sealed.connect(_sealed)
-	$Client.lobby_already_exists.connect(_lobby_exists)
+	client.lobby_joined.connect(_connected)
+	client.connection_timeout.connect(_timeout)
+	client.multiplayer.peer_connected.connect(_peer_connected)
+	client.multiplayer.peer_disconnected.connect(_peer_disconnected)
+	client.lobby_sealed.connect(_sealed)
+	client.lobby_already_exists.connect(_lobby_exists)
 
 	%Nickname.text = names.pick_random()
 	%ChatInput.text_submitted.connect(_send_text)
-	#_host()
+	if is_server:
+		_host()
+	else:
+		_join()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("push_to_talk"):
@@ -42,14 +46,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _host() -> void:
-	$Client.start(lobby, true)
+	client.start(str(lobby), true)
 	%Host.text = " Creating... "
 	%Host.disabled = true
 	%HostLobby.editable = false
 
 
 func _join() -> void:
-	$Client.start(%JoinLobby.text, false)
+	client.start(str(lobby), false)
 
 
 func _connected(lobby: String) -> void:
@@ -64,7 +68,6 @@ func _connected(lobby: String) -> void:
 
 
 func _peer_connected(id) -> void:
-	prints("se conecto")
 	if id == multiplayer.get_unique_id():
 		return
 	rpc_id(id, "request_name")
@@ -94,7 +97,7 @@ func _timeout() -> void:
 func _quit() -> void:
 	_peers_in_list.clear()
 
-	$Client.stop()
+	client.stop()
 	%Lobby.hide()
 	%ConnectionPanel.show()
 	%PlayerList.clear()
@@ -121,12 +124,12 @@ func _send_text(text: String) -> void:
 
 @rpc("any_peer", "call_local")
 func send_text(text):
+	prints(text)
 	%ChatBox.append_text(text)
 
 
 @rpc("any_peer", "call_remote", "reliable")
 func request_name() -> void:
-	prints("mi nombre " , %Nickname.text )
 	rpc_id(multiplayer.get_remote_sender_id(), "set_nickname", %Nickname.text)
 
 
