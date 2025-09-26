@@ -1,0 +1,110 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2qb1lhdrail3"]
+
+[ext_resource type="Script" uid="uid://hdes3tufbpqi" path="res://pkarr-godot/pkarr/godot/examples/control.gd" id="1_0fbet"]
+[ext_resource type="Script" uid="uid://byabejwsxg1t3" path="res://pkarr-godot/pkarr/godot/examples/button_3.gd" id="2_62e2m"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0fbet")
+
+[node name="Peerinfo" type="Peerinfo" parent="."]
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 638.0
+offset_top = 3.0
+offset_right = 897.0
+offset_bottom = 647.0
+text = "
+"
+autowrap_mode = 3
+
+[node name="publicar" type="Label" parent="."]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 442.0
+offset_right = 362.0
+offset_bottom = 465.0
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 454.0
+offset_right = 809.0
+offset_bottom = 511.0
+text_overrun_behavior = 2
+
+[node name="resolver" type="Button" parent="."]
+layout_mode = 0
+offset_right = 151.0
+offset_bottom = 95.0
+text = "resolver"
+
+[node name="pubicar" type="Button" parent="."]
+layout_mode = 0
+offset_left = 166.0
+offset_right = 312.0
+offset_bottom = 93.0
+text = "publish"
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 104.0
+offset_right = 50.0
+offset_bottom = 135.0
+text = "hola"
+script = ExtResource("2_62e2m")
+
+[node name="Label" type="Label" parent="Button3"]
+layout_mode = 0
+offset_left = 51.0
+offset_right = 74.0
+offset_bottom = 29.0
+text = "0"
+
+[node name="CodeEdit" type="CodeEdit" parent="."]
+layout_mode = 0
+offset_left = 94.0
+offset_top = 163.0
+offset_right = 627.0
+offset_bottom = 216.0
+text = "tkucztxt7xhrb41miqb7xknhijngpgy7tyhete15ycok7naaonsy"
+placeholder_text = "public key"
+
+[node name="mode" type="CodeEdit" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 163.0
+offset_right = 87.0
+offset_bottom = 219.0
+text = "dht"
+placeholder_text = "\"dht\" or \"relays\""
+
+[node name="clave" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 252.0
+offset_right = 289.0
+offset_bottom = 328.0
+text = "Godot"
+placeholder_text = "clave de la llave"
+
+[node name="valor" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 341.0
+offset_right = 283.0
+offset_bottom = 413.0
+text = "Pkarr_in_rust"
+placeholder_text = "valor de llave"
+
+[connection signal="resolv" from="Peerinfo" to="." method="_on_peerinfo_resolv"]
+[connection signal="pressed" from="resolver" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="pubicar" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button3" to="Button3" method="_on_pressed"]

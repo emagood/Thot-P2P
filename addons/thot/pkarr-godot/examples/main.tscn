@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7iskwgu5aphr"]
+
+[ext_resource type="Script" uid="uid://bphs0tj6187fk" path="res://pkarr-godot/pkarr/godot/examples/main.gd" id="1_tb2l5"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_tb2l5")
+
+[node name="Player" type="Sprite2D" parent="."]
+position = Vector2(903, 491)

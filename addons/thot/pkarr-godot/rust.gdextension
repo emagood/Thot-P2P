@@ -1,0 +1,18 @@
+[configuration]
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = 4.4
+reloadable = true
+
+[libraries]
+linux.debug.x86_64 =     "target/debug/libpkarr.so"
+linux.release.x86_64 =   "target/release/libpkarr.so"
+windows.debug.x86_64 =   "target/debug/libpkarr.dll"
+windows.release.x86_64 = "target/release/rust.dll"
+macos.debug =            "target/debug/libpkarr.dylib"
+macos.release =          "target/release/libpkarr.dylib"
+macos.debug.arm64 =      "target/debug/libpkarr.dylib"
+macos.release.arm64 =    "target/release/libpkarr.dylib"
+android.debug.arm64 =    "target/aarch64-linux-android/debug/liblibpkarr.so"
+android.release.arm64 =  "target/aarch64-linux-android/release/liblibpkarr.so"
+android.debug.x86_64 =   "target/x86_64-linux-android/debug/liblibpkarr.so"
+android.release.x86_64 = "target/x86_64-linux-android/release/liblibpkarr.so"
