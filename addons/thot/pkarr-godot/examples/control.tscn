@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2qb1lhdrail3"]
 
-[ext_resource type="Script" uid="uid://hdes3tufbpqi" path="res://pkarr-godot/pkarr/godot/examples/control.gd" id="1_0fbet"]
-[ext_resource type="Script" uid="uid://byabejwsxg1t3" path="res://pkarr-godot/pkarr/godot/examples/button_3.gd" id="2_62e2m"]
+[ext_resource type="Script" uid="uid://hdes3tufbpqi" path="res://addons/thot/pkarr-godot/examples/control.gd" id="1_0fbet"]
+[ext_resource type="Script" uid="uid://byabejwsxg1t3" path="res://addons/thot/pkarr-godot/examples/button_3.gd" id="2_62e2m"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
