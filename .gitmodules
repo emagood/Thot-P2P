@@ -7,6 +7,6 @@
 [submodule "addons/thot/webrtc-godot"]
 	path = addons/thot/webrtc-godot
 	url = https://github.com/godotengine/webrtc-native.git
-[submodule "addons/thot/pkarr"]
+[submodule "addons/thot/pkarr-godot"]
 	path = addons/thot/pkarr-godot
 	url = https://github.com/emagood/pkarr-godot.git
