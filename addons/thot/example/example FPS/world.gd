@@ -6,7 +6,7 @@ extends Node
 @onready var health_bar = $CanvasLayer/HUD/HealthBar
 
 
-const Player = preload("res://addons/thot/example/example FPS/player.tscn")
+const player = preload("res://addons/thot/example/example FPS/player.tscn")
 const PORT = 9999
 var type = "enet"
 #var enet_peer = ENetMultiplayerPeer.new()
@@ -55,7 +55,7 @@ func _on_join_button_pressed():
 
 
 func add_player(peer_id):
-	var player = Player.instantiate()
+	var player = player.instantiate()
 	player.name = str(peer_id)
 	player.set_multiplayer_authority(peer_id)
 
