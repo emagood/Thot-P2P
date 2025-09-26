@@ -1,12 +1,15 @@
 [submodule "addons/thot/iroh"]
 	path = addons/thot/iroh
 	url = https://github.com/tipragot/godot-iroh.git
+
 [submodule "addons/thot/libp2p-godot"]
 	path = addons/thot/libp2p-godot
 	url = https://github.com/emagood/rust-godot-libp2p.git
+
 [submodule "addons/thot/webrtc-godot"]
 	path = addons/thot/webrtc-godot
 	url = https://github.com/godotengine/webrtc-native.git
+
 [submodule "addons/thot/pkarr-godot"]
 	path = addons/thot/pkarr-godot
 	url = https://github.com/emagood/pkarr-godot.git
