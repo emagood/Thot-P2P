@@ -16,9 +16,14 @@ var address: String
 var port: int
 
 
-signal data_received(data)
+signal data_received(id , data)
 signal connection_successful
 signal connection_failed
+
+
+signal client_connected(client_id)
+signal client_disconnected(client_id)
+
 
 func _init(conecting_address: String = "127.0.0.1", connecting_port: int = 3115):
 	address = conecting_address
@@ -100,7 +105,7 @@ func _check_for_data():
 		var data = client_data.peer.get_var()
 		prints(client_data.connection.get_connected_host())
 		print("[CLIENT] Data received: " + str(data))   #quitar 
-		data_received.emit(data)
+		data_received.emit(1, data)
 
 func _connection_successful():
 	print("[CLIENT] Successfully connected to " + address + ":" + str(port))   #quitar 

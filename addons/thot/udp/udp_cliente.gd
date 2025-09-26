@@ -21,6 +21,12 @@ var port := 4343
 var send_timer := 0.0
 const SEND_INTERVAL := 3.0
 
+signal client_connected(client_id)
+signal client_disconnected(client_id)
+signal data_received(client_id, data)
+
+
+
 func _init(initial_host, initial_port := 4343) -> void:
 	if initial_host != "":
 		#prints("elip se establecio : ", initial_host)
@@ -29,6 +35,7 @@ func _init(initial_host, initial_port := 4343) -> void:
 	_connect()
 
 func _process(delta: float) -> void:
+	
 	send_timer += delta
 	
 	if send_timer >= SEND_INTERVAL:
@@ -39,9 +46,11 @@ func _process(delta: float) -> void:
 		var response = udp.get_packet().get_string_from_utf8()
 		prints("Respuesta del servidor:", response)
 		connected = true
+		emit_signal("data_received","del server udp", response)
 
 func send_pack(message: String) -> void:
 	if !udp.is_socket_connected():
+		emit_signal("client_disconnected", "udp_noname")
 		_connect()
 		if !udp.is_socket_connected():
 			return
@@ -54,6 +63,10 @@ func _connect() -> void:
 	var err := udp.connect_to_host(host, port)
 	prints("Intentando conectar a", host, port, "| Error:", err)
 	connected = err == OK
+	if udp.is_socket_connected():
+		emit_signal("client_connected", "udp_noname")
+	else:
+		emit_signal("client_disconnected", "udp_noname")
 
 
 
@@ -69,6 +82,8 @@ func broadcast(text, bcast_port):
 	# 使用广播地址255.255.255.255向所有设备发送消息
 	# Use broadcast address 255.255.255.255 to send message to all devices
 	return send(text, "255.255.255.255", bcast_port) 
+
+
 func send(text, ip, port):
 	udp.set_dest_address(ip, port)  # 设置目标地址和端口
 									# Set destination address and port

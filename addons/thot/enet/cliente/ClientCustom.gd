@@ -20,6 +20,12 @@ var type = "enet"
 var local_id = ""
 
 
+signal client_connected(client_id)
+signal client_disconnected(client_id)
+signal data_received(client_id, data)
+
+
+
 func _init(ip , port) -> void:
 	self.port = port
 	self.address = ip

@@ -2,7 +2,7 @@ extends Control
 
 
 var ip = "127.0.0.1"
-var port = 4343
+var port = 9999
 @onready var conteiner = $"../PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer2"
 
 

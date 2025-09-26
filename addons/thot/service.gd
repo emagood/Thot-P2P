@@ -75,6 +75,7 @@ func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4
 			server = Server_udp.new(port)
 		ConnectionType.TCP:
 			server = NetworkServer.new("*", port)
+			
 		ConnectionType.WEBSOCKET:
 			server = WebServer.new("*", port)
 			
@@ -113,6 +114,10 @@ func add_server(node ,type: String, port: int, lobby: String = "webrtc_godot_4.4
 	if server == null:
 		print("Error: No se pudo instanciar el servidor de tipo", type)
 		return false
+	else:
+		server.data_received.connect(_data)
+		server.client_connected.connect(user_conect)
+		server.client_disconnected.connect(user_disconect)
 	if  type != "webr" and type != "iroh":
 		prints(type)
 		server.name = "server"+str(lobby)
@@ -173,6 +178,7 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 			client = Client_udp.new(ip, port)
 		ConnectionType.TCP:
 			client = NetworkClient.new(ip, port)
+			
 		ConnectionType.WEBSOCKET:
 			client = WebClient.new(ip, port)
 			
@@ -208,6 +214,11 @@ func add_client(node ,type: String, ip: String, port: int, lobby: String = "webr
 	if client == null:
 		print("Error: No se pudo instanciar el cliente de tipo ", type)
 		return false
+	else:
+		client.data_received.connect(_data)
+		
+		
+		
 	if !type == "webr" and !type == "iroh":
 		node.add_child(client)
 
@@ -310,6 +321,9 @@ func server_thot(type , port )-> MultiplayerPeer:
 
 #region enviar send 
 func send(type , ip , port, pack):
+	
+	var peer = client_thot(type , 9999 )
+	multiplayer.multiplayer_peer = peer
 	if type in clients:
 		# Buscar en client_nodes
 		if type in client_nodes:
@@ -406,6 +420,18 @@ func register_upnp_port(port: int):
 func is_upnp_port_open(port: int) -> bool:
 	return upnp_ports.get(port, false)
 #endregion fin upnp
+
+func _data(id ,data):
+	prints("se recivio de cliente ",id ,"estos datos:" ,  data)
+
+
+func user_conect(id):
+	prints( "se conecto id " , id)
+
+
+func user_disconect(id):
+	prints("se deconecto ", id)
+	
 
 
 func _exit_tree():

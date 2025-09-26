@@ -48,7 +48,7 @@ func _on_join_button_pressed():
 
 	Thot.add_client(self ,type, address_entry.text,9999,$CanvasLayer/MainMenu/MarginContainer/VBoxContainer/link_iroh.text)
 	prints($CanvasLayer/MainMenu/MarginContainer/VBoxContainer/link_iroh.text)
-	await get_tree().create_timer(4.0).timeout
+	await get_tree().create_timer(1.0).timeout
 
 	var peer = Thot.client_thot(type , 9999 )
 	multiplayer.multiplayer_peer = peer

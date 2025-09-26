@@ -59,9 +59,9 @@ func _process(_delta):
 			##########################################
 			#### prueba 
 			# Encuentra la primera clave numérica faltante en el diccionario 
-			var key = 1 
-			while client_datas.has(key): 
-				key += 1 # Agrega el nuevo valor en el primer lugar vacío encontrado 
+			var key = 1
+			while client_datas.has(key):
+				key += 1 # Agrega el nuevo valor en el primer lugar vacío encontrado
 			#dictionary[key] = new_value
 			
 			var client_id = key
@@ -70,7 +70,7 @@ func _process(_delta):
 			client_datas[client_id].peer = PacketPeerStream.new()
 			client_datas[client_id].peer.set_stream_peer(client_connection)
 			client_datas[client_id].connection = client_connection
-			print("[SERVER] A Client has Connected! %d" % client_id)    ###quitar 
+			print("[SERVER] A Client has Connected! %d" % client_id)    ###quitar
 			emit_signal("client_connected", client_id)
 	
 	# Usar un array temporal para evitar modificaciones concurrentes
@@ -82,12 +82,12 @@ func _process(_delta):
 		
 		# Update connection status
 		connection.poll()
-		
+		#prints("estatus de servidor : " , connection.get_status())
 		# Check for disconnection
-		if connection.get_status() == connection.STATUS_ERROR or connection.get_status() == connection.STATUS_NONE:
+		if connection.get_status() == 0 or connection.get_status() == 3:
 			print("[SERVER] A Client has disconnected: %d" % client_id)
 			disconnected_clients.append(client_id)
-			client_datas.erase(client_id) ### problema 
+			client_datas.erase(client_id) ### problema
 			
 			emit_signal("client_disconnected", client_id)
 		else:
@@ -108,7 +108,12 @@ func _process(_delta):
 	##_game.on_peer_add(id)
 
 
-func send_pack(client_id: int, data):
+func send_pack( data):
+	var client_id = 1
+	if client_datas.is_empty():
+		print("no existen peer")
+		return
+
 	if client_datas.has(client_id):
 		client_datas[client_id].peer.put_var(data)
 		print("[SERVER] Data sent to client %d: %s" % [client_id, str(data)]) #///quitar ///

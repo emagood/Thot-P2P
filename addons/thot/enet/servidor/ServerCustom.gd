@@ -11,6 +11,10 @@ var thread = null
 @onready var rpc_local = get_tree().get_first_node_in_group("rpc_local")
 @onready var send_msjs = get_tree().get_first_node_in_group("msj")
 
+signal client_connected(client_id)
+signal client_disconnected(client_id)
+signal data_received(client_id, data)
+
 func _init(ip , port) -> void:
 	peer.set_bind_ip(ip)
 	self.port = port

@@ -8,7 +8,12 @@ class_name WebClient
 var peer = WebSocketMultiplayerPeer.new()
 var multiplayer_api : MultiplayerAPI
 
-func _init(ip: String = "localhost", port: int = 8080):
+signal client_connected(client_id)
+signal client_disconnected(client_id)
+signal data_received(client_id, data)
+
+
+func _init(ip: String = "localhost", port: int = 9999):
 	if !ip.is_valid_ip_address():
 		
 		var urlRegex = RegEx.new()
@@ -30,21 +35,14 @@ func _init(ip: String = "localhost", port: int = 8080):
 	
 
 func _ready():
-	#get_tree().set_multiplayer(MultiplayerAPI.create_default_interface(), self.get_path())
-	#get_tree().set_multiplayer(multiplayer, self.get_path())
-	#get_tree().set_multiplayer(multiplayer)
-	
-	#get_tree().set_multiplayer(multiplayer_api, self.get_path())
-	#multiplayer.multiplayer_peer = peer
-	#
 	get_tree().set_multiplayer(multiplayer, self.get_path())
 	multiplayer_api = MultiplayerAPI.create_default_interface()
 	multiplayer.multiplayer_peer = peer
-	
+	var conect = "ws://" + ip + ":" + str(port)
+	prints("conectar cliente como " , conect)
 	var err = peer.create_client("ws://" + ip + ":" + str(port))
 	if err != OK:
 		print("Failed to create client: %s" % err)
-	
 
 	multiplayer.peer_connected.connect(self._peer_connected)
 	multiplayer.peer_disconnected.connect(self._peer_disconnected)
@@ -66,16 +64,25 @@ func _peer_connected(id):
 func _peer_disconnected(id):
 	print("Disconnected :cliente %d" % id)
 
-@rpc("any_peer")
+
+
 func send_pack(smj):
-	#if not is_multiplayer_authority():
-		#return
+	var server_id := 1
+	var my_id := multiplayer.get_unique_id()
+
+	if my_id == server_id:
+		printerr("Soy el servidor, no puedo hacer rpc_id a mí mismo")
+		return
+
+	command.rpc_id(server_id, smj)
+
+
+@rpc("call_remote")
+func command(smj) -> void:
 	var peer_id = multiplayer.get_remote_sender_id()
 	var mi_id = multiplayer.get_unique_id()
 	prints(":cliente  ",mi_id ," recibio ",  smj,peer_id ,)
-
-func command(cmd) -> void:
-	send_pack.rpc_id(1,cmd)
+	#send_pack.rpc_id(1,cmd)
 	#send_sms.rpc_id(1,"hola a todos que tal ")
 	pass # Replace with function body.
 
